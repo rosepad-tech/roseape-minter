@@ -45,6 +45,10 @@ const Label = styled.label`
   font-family: "Nasalization";
   cursor: pointer;
   z-index: 2;
+
+  @media (max-width: 768px) {
+    display: ${({ icon }) => (icon ? "none" : "block")};
+  }
 `;
 
 export default ({
@@ -58,7 +62,7 @@ export default ({
     <Container onClick={() => onClick()}>
       {stroked && <Inset />}
       {icon && <Icon src={icon} />}
-      <Label style={{ color: stroked ? "#ff0073" : "white" }}>
+      <Label icon={!!icon} style={{ color: stroked ? "#ff0073" : "white" }}>
         {label || children}
       </Label>
     </Container>

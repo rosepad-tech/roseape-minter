@@ -2,7 +2,7 @@ import diamond from "assets/diamond.svg";
 import { ethers } from "ethers";
 import styled from "styled-components";
 import { ERC721, ERC721ABI } from "utils/contracts";
-import GradientBtn from "./GradientBtn";
+import GradientBtn from "../../components/GradientBtn";
 
 const Container = styled.div`
   @media (max-width: 1024px) {
@@ -128,8 +128,6 @@ export default () => {
       `${"hash"}`,
       `${"additional"}`
     );
-
-    console.log("tx :", tx);
   };
 
   return (

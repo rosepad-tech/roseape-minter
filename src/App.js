@@ -1,7 +1,7 @@
 import Footer from "components/Footer";
 import Header from "components/Header";
-import Main from "components/Main";
 import Notification from "components/Notification";
+import View from "components/View";
 import { useDispatch } from "react-redux";
 import { toggleNotification } from "store/notification";
 import styled from "styled-components";
@@ -45,7 +45,7 @@ const Container = styled.div`
 export default () => {
   const dispatch = useDispatch();
 
-  if (window.ethereum) {
+  if (window.ether) {
     window.ethereum.on("accountsChanged", (_) => {
       dispatch(
         toggleNotification({
@@ -55,7 +55,7 @@ export default () => {
       );
     });
 
-    window.ethereum.on("accountsChanged", (_) => {
+    window.ethereum.on("networkChanged", (_) => {
       dispatch(
         toggleNotification({
           message:
@@ -69,7 +69,8 @@ export default () => {
     <Container>
       <Notification />
       <Header />
-      <Main />
+
+      <View />
       <Footer />
     </Container>
   );

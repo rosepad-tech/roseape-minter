@@ -2,11 +2,13 @@ import logo from "assets/logo.png";
 import metamaskIcon from "assets/metamask.png";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router";
+import { setAddress } from "store/global";
 import { toggleNotification } from "store/notification";
 import styled from "styled-components";
 import { centerEllipsis } from "utils/helpers";
-import { SOCIALS } from "../constants";
+import { ROUTES, SOCIALS } from "../constants";
 import GradientBtn from "./GradientBtn";
 
 const Container = styled.div`
@@ -15,6 +17,8 @@ const Container = styled.div`
   gap: 1rem;
   justify-content: space-between;
   padding: 1rem 2rem;
+  position: fixed;
+  width: 100%;
 `;
 
 const Right = styled.div`
@@ -59,12 +63,39 @@ const Logo = styled.img.attrs({ src: logo })`
   width: 5rem;
 `;
 
+const Links = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+const Link = styled.button`
+  outline: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: transparent;
+  color: white;
+  text-transform: uppercase;
+  font-family: "Nasalization";
+  font-size: 15px;
+  opacity: 0.64;
+
+  &.active {
+    opacity: 0.92;
+  }
+`;
+
 export default () => {
   const dispatch = useDispatch();
   const [metamaskConnected, setMetamaskConnected] = useState(
     localStorage.getItem("roseapeMetamaskConnected")
   );
-  const [account, setAccount] = useState("");
+  const address = useSelector((state) => state.global.address);
+
+  const { pathname } = useLocation();
+
+  const navigate = useNavigate();
 
   const connectMetamask = async () => {
     if (window.ethereum) {
@@ -99,7 +130,7 @@ export default () => {
     if (localStorage.getItem("roseapeMetamaskConnected")) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const accounts = await provider.listAccounts();
-      setAccount(accounts[0]);
+      dispatch(setAddress(accounts[0]));
     }
   }, []);
 
@@ -108,6 +139,17 @@ export default () => {
       <Left>
         <Logo />
       </Left>
+      <Links>
+        {ROUTES.map(({ id, title, link }) => (
+          <Link
+            key={id}
+            onClick={() => navigate(link)}
+            className={pathname === link ? "active" : ""}
+          >
+            {title}
+          </Link>
+        ))}
+      </Links>
       <Right>
         <Socials>
           {SOCIALS.map((e, i) => (
@@ -126,7 +168,7 @@ export default () => {
         <GradientBtn
           icon={metamaskIcon}
           onClick={connectMetamask}
-          label={metamaskConnected ? centerEllipsis(account) : "Connect Wallet"}
+          label={metamaskConnected ? centerEllipsis(address) : "Connect Wallet"}
         />
       </Right>
     </Container>
