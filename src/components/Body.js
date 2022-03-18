@@ -120,9 +120,16 @@ export default () => {
     const signer = await provider.getSigner();
 
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-    const tx = await contract["mint(string)"](`${"rose-test-ape"}`, {
-      value: 100_000_000_000,
-    });
+
+    let tx = await contract["mint(uint256,string,string,string,string)"](
+      132,
+      `${"name"}`,
+      `${"description"}`,
+      `${"hash"}`,
+      `${"additional"}`
+    );
+
+    console.log("tx :", tx);
   };
 
   return (
