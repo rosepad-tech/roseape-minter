@@ -45,23 +45,25 @@ const Container = styled.div`
 export default () => {
   const dispatch = useDispatch();
 
-  window.ethereum.on("accountsChanged", (_) => {
-    dispatch(
-      toggleNotification({
-        message:
-          "Account Change Detected In Metamask. Please re-connect your wallet.",
-      })
-    );
-  });
+  if (window.ethereum) {
+    window.ethereum.on("accountsChanged", (_) => {
+      dispatch(
+        toggleNotification({
+          message:
+            "Account Change Detected In Metamask. Please re-connect your wallet.",
+        })
+      );
+    });
 
-  window.ethereum.on("accountsChanged", (_) => {
-    dispatch(
-      toggleNotification({
-        message:
-          "Network Change Detected In Metamask. Please ensure you are connected to BSC Testnet.",
-      })
-    );
-  });
+    window.ethereum.on("accountsChanged", (_) => {
+      dispatch(
+        toggleNotification({
+          message:
+            "Network Change Detected In Metamask. Please ensure you are connected to BSC Testnet.",
+        })
+      );
+    });
+  }
 
   return (
     <Container>
