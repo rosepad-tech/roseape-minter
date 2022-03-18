@@ -1,6 +1,9 @@
 import Footer from "components/Footer";
 import Header from "components/Header";
 import Main from "components/Main";
+import Notification from "components/Notification";
+import { useDispatch } from "react-redux";
+import { toggleNotification } from "store/notification";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -40,8 +43,29 @@ const Container = styled.div`
 `;
 
 export default () => {
+  const dispatch = useDispatch();
+
+  window.ethereum.on("accountsChanged", (_) => {
+    dispatch(
+      toggleNotification({
+        message:
+          "Account Change Detected In Metamask. Please re-connect your wallet.",
+      })
+    );
+  });
+
+  window.ethereum.on("accountsChanged", (_) => {
+    dispatch(
+      toggleNotification({
+        message:
+          "Network Change Detected In Metamask. Please ensure you are connected to BSC Testnet.",
+      })
+    );
+  });
+
   return (
     <Container>
+      <Notification />
       <Header />
       <Main />
       <Footer />

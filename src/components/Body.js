@@ -1,5 +1,7 @@
 import diamond from "assets/diamond.svg";
+import { ethers } from "ethers";
 import styled from "styled-components";
+import { ERC721, ERC721ABI } from "utils/contracts";
 import GradientBtn from "./GradientBtn";
 
 const Container = styled.div`
@@ -113,6 +115,16 @@ const GradText = styled.span`
 `;
 
 export default () => {
+  const Mint = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
+
+    const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
+    const tx = await contract["mint(string)"](`${"rose-test-ape"}`, {
+      value: 100_000_000_000,
+    });
+  };
+
   return (
     <Container>
       <Head>
@@ -135,7 +147,7 @@ export default () => {
         </Span>
       </LitContainer>
       <Options>
-        <GradientBtn label="Mint" />
+        <GradientBtn label="Mint" onClick={Mint} />
         <GradientBtn label="Calculate Rarity" stroked={true} />
       </Options>
       <Div>

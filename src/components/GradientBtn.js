@@ -24,9 +24,11 @@ const Container = styled.button`
   border-radius: 5rem;
   height: fit-content;
   width: fit-content;
-  display: grid;
-  place-content: center;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 
   &:hover {
     ${Inset} {
@@ -35,16 +37,27 @@ const Container = styled.button`
   }
 `;
 
+const Icon = styled.img`
+  width: 1.5rem;
+`;
+
 const Label = styled.label`
   font-family: "Nasalization";
   cursor: pointer;
   z-index: 2;
 `;
 
-export default ({ label, children, stroked = false, onClick = () => null }) => {
+export default ({
+  label,
+  children,
+  stroked = false,
+  onClick = () => null,
+  icon,
+}) => {
   return (
     <Container onClick={() => onClick()}>
       {stroked && <Inset />}
+      {icon && <Icon src={icon} />}
       <Label style={{ color: stroked ? "#ff0073" : "white" }}>
         {label || children}
       </Label>
