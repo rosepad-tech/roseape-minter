@@ -19,6 +19,8 @@ const Container = styled.div`
   justify-content: space-between;
   padding: 1rem 2rem;
   position: fixed;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
   width: 100%;
 `;
 

@@ -71,6 +71,7 @@ const Row = styled.div`
   gap: 0.5rem;
 `;
 
+
 export default ({
   cid,
   tokenId,
