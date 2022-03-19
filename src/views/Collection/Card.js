@@ -1,5 +1,7 @@
 import { truncate } from "lodash";
 import styled from "styled-components";
+import GradientBtn from "../../components/GradientBtn";
+import { ERC721, ERC721ABI, BASE_URI_TX } from "utils/contracts";
 
 const Container = styled.div`
   width: 100%;
@@ -71,7 +73,7 @@ const Row = styled.div`
 
 export default ({
   cid,
-  balance,
+  tokenId,
   contractAddress,
   decimals,
   name,
@@ -80,6 +82,7 @@ export default ({
   type,
   uri,
   blockHash,
+  hash
 }) => {
   return (
     //"https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address=";
@@ -88,13 +91,22 @@ export default ({
       <Card>{src && <Image src={src} />}</Card>
       <Details>
         <Column>
-          <Title>{name}</Title>
-          <Addr>{truncate(blockHash, { length: 27 })}</Addr>  
+          <Title>{name} | {tokenId} </Title>
+          <Addr>{truncate(hash, { length: 27 })}</Addr>  
           <Row>
             <Symbol>{symbol}</Symbol>
             <Type>{type}</Type>
           </Row>
+          <Row>
+          <GradientBtn 
+          label="TXN"
+          onClick={(event) => (window.open(BASE_URI_TX+hash, "_blank"))}/>
+          <GradientBtn 
+          label="IPFS"
+          onClick={(event) => (window.open(src, "_blank"))}/>
+          </Row>
         </Column>
+        
       </Details>
     </Container>
   );

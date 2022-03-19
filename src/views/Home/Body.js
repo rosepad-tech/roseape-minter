@@ -1,12 +1,14 @@
 import diamond from "assets/diamond.svg";
 import { ethers } from "ethers";
 import styled from "styled-components";
-import { ERC721, ERC721ABI } from "utils/contracts";
+import { ERC721, ERC721ABI, BASE_URI_TX } from "utils/contracts";
 import GradientBtn from "../../components/GradientBtn";
 import { useEffect, useState } from "react";
 import { TripleMaze } from 'react-spinner-animated';
 
-import 'react-spinner-animated/dist/index.css'
+
+import 'assets/spinner/index.css'
+
 const Container = styled.div`
   @media (max-width: 1024px) {
     display: flex;
@@ -119,7 +121,9 @@ const GradText = styled.span`
 
 export default () => {
   const [loading, setLoading] = useState(false);
-  const [loadingText, setLoadingText] = useState("Minting Process Initiated");
+  const [showHash, setShowHash] = useState(false);
+  const [loadingText, setLoadingText] = useState("Mint");
+  const [hash, setHash] = useState("");
   let textStatus = "";
   const Mint = async () => {
     console.log("Minting");
@@ -130,18 +134,18 @@ export default () => {
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer)
     let tx = await contract["mint()"]({value: ethers.utils.parseEther("1")})
     .then(tx => {
-      setLoadingText("Minting Process - Transaction Pending");
+      setLoadingText("Minting...");
       tx.wait().then(receipt => {
-        setLoadingText("Minting Process - Transaction Complete");
+        setLoadingText("Complete! Mint another!");
+        setHash(receipt.transactionHash);
         setLoading(false);
+        setShowHash(true);
       });
-
     }).catch(error => {
-      setLoadingText("Minting Process - Transaction Failed");
+      setLoadingText("Mint");
       setLoading(false);
     });
-
-    console.log("tx :", tx);
+  
   };
 
   
@@ -149,15 +153,16 @@ export default () => {
     <Container>
       
       <Head>
-        <Title>Roseapes - Public Mint</Title>
-        {/* <Sub>Ape God - Blue</Sub> */}
+        <Title>RoseApes721</Title>
+        <Sub>Mint your RoseApe now!</Sub>
       </Head>
-      {/* <Span>
+      <Span>
         <Value>
-          <GradText>0</GradText> / 44
+          <GradText>Rose#Ape</GradText>
+          
         </Value>
-        <Label style={{ margin: "0.125rem 0" }}>0xb0831....9e8cb396374</Label>
-      </Span> */}
+      </Span>
+      
       <LitContainer>
         <Span style={{ gap: "0.125rem" }}>
           <Label style={{ margin: "0" }}>Price</Label>
@@ -167,16 +172,22 @@ export default () => {
             <Small>ROSE</Small>
           </Div>
         </Span>
-        {loading ?  <TripleMaze text={loadingText} /> : console.log(false) } 
       </LitContainer>
+      
+    
       <Options>
-        <GradientBtn label="Mint" onClick={Mint} />
-        <GradientBtn
-          label="View your RoseApes"
-          stroked={true}
-          onClick={(event) => (window.location.href = "/collection")}
-        />
+        <GradientBtn label={loadingText} onClick={Mint} />
       </Options>
+      <Options>
+      {showHash ? 
+        <GradientBtn
+          label="View your newly minted RoseApe!"
+          stroked={true}
+          onClick={(event) => (window.open(BASE_URI_TX+hash, "_blank"))}
+        />
+        : null}
+      </Options>
+      
       <Div>{textStatus}</Div>
       <Div>
         {/* <Diamond /> */}

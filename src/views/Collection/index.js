@@ -27,7 +27,6 @@ export default () => {
   useEffect(async () => {
     try {
 
-
       setTokenList(
         await axios.get(`${BASE_URI_TOKEN_TXN}${address}`).then(({ data:{result}}) => 
           Promise.all(
@@ -51,10 +50,12 @@ export default () => {
                   cid,
                   src: `https://ipfs.io/ipfs/${cid}${image}`,
                   blockHash: e.blockHash,
+                  transactionHash: e.hash,
                   symbol: e.tokenSymbol,
                   type: "ERC-721",
                   name: name,
                   description: description,
+                  tokenId: e.tokenID,
                 };
               };
             })

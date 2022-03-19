@@ -31,10 +31,6 @@ export const ROUTES = [
     id: "home",
   },
   {
-    title: "How to connect",
-    id: "htconnect",
-  },
-  {
     title: "collection",
     id: "collection",
   }
