@@ -149,11 +149,13 @@ export default () => {
     localStorage.setItem("roseapeMetamaskConnected", false);
   }
 
-  window.ethereum.on('accountsChanged', function (accounts) {
-    dispatch(setAddress(accounts[0].toLowerCase()));
-    setMetamaskConnected(true);
-    localStorage.setItem("roseapeMetamaskConnected", true);
-  })
+  if(window.ethereum) {
+    window.ethereum.on('accountsChanged', function (accounts) {
+      dispatch(setAddress(accounts[0].toLowerCase()));
+      setMetamaskConnected(true);
+      localStorage.setItem("roseapeMetamaskConnected", true);
+    })
+  }
 
   useEffect(async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
