@@ -22,14 +22,34 @@ const Listings = styled.div`
 `;
 
 export default () => {
-
-  //  Get the collections from
-  //const tokenList = "https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address="+state.global.Address;
+  
+  const [tokenList, setTokenList] = useState([]);
   const contract = new ethers.Contract(ERC721, ERC721ABI, PROVIDER);
   const address = useSelector((state) => state.global.address);
 
+  
+  // // Simple GET request using fetch
+  // fetch('https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address='+address)
+  //     .then(response => response.json())
+  //     .then(data => setTokenList(data.result));
+  
+
+  // tokenList.map(e => {
+  //   console.log(e);
+  //   console.log(contract.tokenURI(e.balance));
+
+  // });
+
+  //  get the balance for each (they are token id)
+
+  //  call contract tokenURI passing the "balance" as token id.
+
+  // this returns a IPFS url with json. Json holds the name, description and image file for each token.
+  
+
   const [collection, setCollection] = useState([]);
 
+  
   useEffect(async () => {
     try {
       const totalSupply = (await contract.totalSupply()).toNumber();
