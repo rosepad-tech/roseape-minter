@@ -25,3 +25,13 @@ export const SOCIALS = [
     link: "https://discord.com/",
   },
 ];
+export const ROUTES = [
+  {
+    title: "home",
+    id: "home",
+  },
+  {
+    title: "collection",
+    id: "collection",
+  },
+].map((e, i) => ({ ...e, link: `/${i === 0 ? "" : e.id}` }));

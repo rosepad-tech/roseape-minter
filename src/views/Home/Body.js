@@ -2,8 +2,7 @@ import diamond from "assets/diamond.svg";
 import { ethers } from "ethers";
 import styled from "styled-components";
 import { ERC721, ERC721ABI } from "utils/contracts";
-import GradientBtn from "./GradientBtn";
-import { Input, Button, notification, Radio } from 'antd'
+import GradientBtn from "../../components/GradientBtn";
 
 const Container = styled.div`
   @media (max-width: 1024px) {
@@ -125,10 +124,10 @@ export default () => {
     let tx = await contract["mint()"]({value: ethers.utils.parseEther("1")})
     if(tx){
       textStatus = "aaaaa";
-      notification.success({
-          message : 'Successfully Minted New NFT',
-          description : `Your NFT minted at transaction with hash ${tx.hash}`
-      })
+      // notification.success({
+      //     message : 'Successfully Minted New NFT',
+      //     description : `Your NFT minted at transaction with hash ${tx.hash}`
+      // })
       // this.setState({creating : false, uploaded : false, name : '', description : '', hash : '', buffer : null, additional : ''})
   }
 

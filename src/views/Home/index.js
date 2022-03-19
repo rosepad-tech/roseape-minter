@@ -11,6 +11,8 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 3rem;
+  margin: auto;
+  max-width: 1920px;
 `;
 const Carousel = styled.div`
   position: relative;
