@@ -33,20 +33,22 @@ export default () => {
         await axios.get(`${BASE_URI}${address}`).then(({ data: { result } }) =>
           Promise.all(
             (result || []).map(async (e) => {
-              const meta = await contract.tokenURI(e.balance);
-              const cid = meta.match(/(?<=ipfs:\/\/).*?(?=\/)/)[0];
+              if (e.type == "ERC-721" && e.symbol == "RPE")  {
+                const meta = await contract.tokenURI(e.balance);
+                const cid = meta.match(/(?<=ipfs:\/\/).*?(?=\/)/)[0];
 
-              const {
-                data: { image },
-              } = await axios.get(
-                meta.replace("ipfs://", "https://ipfs.io/ipfs/")
-              );
+                const {
+                  data: { image },
+                } = await axios.get(
+                  meta.replace("ipfs://", "https://ipfs.io/ipfs/")
+                );
 
-              return {
-                ...e,
-                uri: meta,
-                cid,
-                src: `https://ipfs.io/ipfs/${cid}${image}`,
+                return {
+                  ...e,
+                  uri: meta,
+                  cid,
+                  src: `https://ipfs.io/ipfs/${cid}${image}`,
+                };
               };
             })
           )

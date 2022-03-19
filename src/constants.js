@@ -31,7 +31,11 @@ export const ROUTES = [
     id: "home",
   },
   {
+    title: "How to connect",
+    id: "htconnect",
+  },
+  {
     title: "collection",
     id: "collection",
-  },
+  }
 ].map((e, i) => ({ ...e, link: `/${i === 0 ? "" : e.id}` }));
