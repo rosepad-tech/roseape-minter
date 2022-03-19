@@ -149,7 +149,7 @@ export default () => {
       <LitContainer>
         <Span style={{ gap: "0.125rem" }}>
           <Label style={{ margin: "0" }}>Price</Label>
-          <Label>Get your very own RoseApes</Label>
+          {/* <Label>Get your very own RoseApes</Label> */}
           <Div>
             <Price>1</Price>
             <Small>ROSE</Small>

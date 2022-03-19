@@ -3,7 +3,7 @@ import { compact, range } from "lodash";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { TEST_COLLECTIONS } from "test";
+import { TEST_COLLECTIONS, TEST_DATA } from "test";
 import { ERC721, ERC721ABI, PROVIDER } from "utils/contracts";
 import { bin2String } from "utils/helpers";
 import Card from "./Card";
@@ -22,8 +22,10 @@ const Listings = styled.div`
 `;
 
 export default () => {
-  const contract = new ethers.Contract(ERC721, ERC721ABI, PROVIDER);
 
+  //  Get the collections from
+  //const tokenList = "https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address="+state.global.Address;
+  const contract = new ethers.Contract(ERC721, ERC721ABI, PROVIDER);
   const address = useSelector((state) => state.global.address);
 
   const [collection, setCollection] = useState([]);
@@ -63,8 +65,10 @@ export default () => {
   return (
     <Container>
       <Listings>
-        {(collection.length ? collection : TEST_COLLECTIONS).map(
-          (e) => e && <Card key={e.id} {...e} />
+        {(collection.length ? collection : TEST_DATA.result).map(
+          (e) => e &&          
+          <Card key={e.id} {...e}  />
+
         )}
       </Listings>
     </Container>
