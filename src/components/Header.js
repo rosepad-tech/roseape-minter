@@ -173,7 +173,10 @@ export default () => {
     }
   }, []);
 
+
+
   return (
+    
     <Container>
       <Left>
         <Logo />
@@ -209,7 +212,7 @@ export default () => {
           
           stroked={true}
           onClick={(event) => (window.open("https://faucet.testnet.oasis.dev/", "_blank"))}
-          label="Get TEST ROSE Tokens"
+          label="Get Emerald Test Network Tokens"
         />
         : console.log("Main")
         }
@@ -220,5 +223,6 @@ export default () => {
         />
       </Right>
     </Container>
+    
   );
 };
