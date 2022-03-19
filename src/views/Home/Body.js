@@ -5,6 +5,7 @@ import { ERC721, ERC721ABI, BASE_URI_TX } from "utils/contracts";
 import GradientBtn from "../../components/GradientBtn";
 import { useEffect, useState } from "react";
 import { TripleMaze } from 'react-spinner-animated';
+import { toggleNotification } from "store/notification";
 
 
 import 'assets/spinner/index.css'

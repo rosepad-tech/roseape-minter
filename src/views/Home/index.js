@@ -2,6 +2,7 @@ import brand from "assets/brand.png";
 import caret from "assets/caret.svg";
 import kingape from "assets/kingape.png";
 import hiddenape from "assets/hidden.png";
+import bossape from "assets/boss.png";
 import { StackedCarousel } from "react-stacked-carousel";
 import styled from "styled-components";
 import Body from "./Body";
@@ -95,7 +96,7 @@ export default () => {
     <Container>
       <Brand />
       <Span>
-        <Image src={hiddenape} />
+        <Image src={bossape} />
         {/* <Carousel>
           <StackedCarousel
             autoRotate={false}

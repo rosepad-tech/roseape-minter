@@ -180,7 +180,7 @@ export default () => {
     <Container>
       <Left>
         <Logo />
-      </Left>
+      
       <Links>
         {ROUTES.map(({ id, title, link }) => (
           <Link
@@ -192,6 +192,7 @@ export default () => {
           </Link>
         ))}
       </Links>
+      </Left>
       <Right>
         {/* <Socials>
           {SOCIALS.map((e, i) => (
