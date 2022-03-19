@@ -5,6 +5,11 @@ import { ERC721, ERC721ABI } from "utils/contracts";
 import GradientBtn from "./GradientBtn";
 import { Input, Button, notification, Radio } from 'antd'
 
+import { BarLoader,DoubleBubble, SlidingPebbles } 
+from 'react-spinner-animated';
+
+import 'react-spinner-animated/dist/index.css'
+
 const Container = styled.div`
   @media (max-width: 1024px) {
     display: flex;
@@ -116,27 +121,33 @@ const GradText = styled.span`
 `;
 
 export default () => {
+  const { data, loading } = this.state;
+  
   const textStatus = "";
   const Mint = async () => {
+    console.log("Minting");
+    setState({loading: true});
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
 
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer)
     let tx = await contract["mint()"]({value: ethers.utils.parseEther("1")})
     if(tx){
-      textStatus = "aaaaa";
       notification.success({
           message : 'Successfully Minted New NFT',
           description : `Your NFT minted at transaction with hash ${tx.hash}`
       })
       // this.setState({creating : false, uploaded : false, name : '', description : '', hash : '', buffer : null, additional : ''})
-  }
+    }
 
     console.log("tx :", tx);
   };
 
   return (
+    
     <Container>
+      {loading ? <DoubleOrbit text="Loading..." bgColor={"#F0A500"} center={false}/> : console.log(false)}
+      
       <Head>
         <Title>Roseapes - Public Mint</Title>
         {/* <Sub>Ape God - Blue</Sub> */}

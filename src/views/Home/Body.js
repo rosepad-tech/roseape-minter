@@ -3,7 +3,10 @@ import { ethers } from "ethers";
 import styled from "styled-components";
 import { ERC721, ERC721ABI } from "utils/contracts";
 import GradientBtn from "../../components/GradientBtn";
+import { useEffect, useState } from "react";
+import { TripleMaze } from 'react-spinner-animated';
 
+import 'react-spinner-animated/dist/index.css'
 const Container = styled.div`
   @media (max-width: 1024px) {
     display: flex;
@@ -115,27 +118,36 @@ const GradText = styled.span`
 `;
 
 export default () => {
+  const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("Minting Process Initiated");
   let textStatus = "";
   const Mint = async () => {
+    console.log("Minting");
+    setLoading(true);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
 
-    const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-    let tx = await contract["mint()"]({ value: ethers.utils.parseEther("1") });
-    if (tx) {
-      textStatus = "aaaaa";
-      // notification.success({
-      //     message : 'Successfully Minted New NFT',
-      //     description : `Your NFT minted at transaction with hash ${tx.hash}`
-      // })
-      // this.setState({creating : false, uploaded : false, name : '', description : '', hash : '', buffer : null, additional : ''})
-    }
+    const contract = new ethers.Contract(ERC721, ERC721ABI, signer)
+    let tx = await contract["mint()"]({value: ethers.utils.parseEther("1")})
+    .then(tx => {
+      setLoadingText("Minting Process - Transaction Pending");
+      tx.wait().then(receipt => {
+        setLoadingText("Minting Process - Transaction Complete");
+        setLoading(false);
+      });
+
+    }).catch(error => {
+      setLoadingText("Minting Process - Transaction Failed");
+      setLoading(false);
+    });
 
     console.log("tx :", tx);
   };
 
+  
   return (
     <Container>
+      
       <Head>
         <Title>Roseapes - Public Mint</Title>
         {/* <Sub>Ape God - Blue</Sub> */}
@@ -155,6 +167,7 @@ export default () => {
             <Small>ROSE</Small>
           </Div>
         </Span>
+        {loading ?  <TripleMaze text={loadingText} /> : console.log(false) } 
       </LitContainer>
       <Options>
         <GradientBtn label="Mint" onClick={Mint} />
