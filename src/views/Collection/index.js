@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { TEST_COLLECTIONS } from "test";
 import { ERC721, ERC721ABI, PROVIDER } from "utils/contracts";
+import { bin2String } from "utils/helpers";
 import Card from "./Card";
 
 const Container = styled.div`
@@ -41,7 +42,10 @@ export default () => {
 
             return {
               id,
-              ...info,
+              uri: bin2String(info[2]),
+              name: bin2String(info[1]),
+              description: bin2String(info[0]),
+              info: bin2String(info[3]),
             };
           }
         })
