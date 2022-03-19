@@ -2,7 +2,8 @@ import diamond from "assets/diamond.svg";
 import { ethers } from "ethers";
 import styled from "styled-components";
 import { ERC721, ERC721ABI } from "utils/contracts";
-import GradientBtn from "../../components/GradientBtn";
+import GradientBtn from "./GradientBtn";
+import { Input, Button, notification, Radio } from 'antd'
 
 const Container = styled.div`
   @media (max-width: 1024px) {
@@ -124,10 +125,10 @@ export default () => {
     let tx = await contract["mint()"]({value: ethers.utils.parseEther("1")})
     if(tx){
       textStatus = "aaaaa";
-      // notification.success({
-      //     message : 'Successfully Minted New NFT',
-      //     description : `Your NFT minted at transaction with hash ${tx.hash}`
-      // })
+      notification.success({
+          message : 'Successfully Minted New NFT',
+          description : `Your NFT minted at transaction with hash ${tx.hash}`
+      })
       // this.setState({creating : false, uploaded : false, name : '', description : '', hash : '', buffer : null, additional : ''})
   }
 
@@ -158,7 +159,7 @@ export default () => {
       </LitContainer>
       <Options>
         <GradientBtn label="Mint" onClick={Mint} />
-        <GradientBtn label="View your RoseApes" stroked={true} onClick={event =>  window.location.href='/collection'} />
+        
       </Options>
       <Div>{textStatus}</Div>
       <Div>
