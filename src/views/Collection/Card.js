@@ -79,14 +79,17 @@ export default ({
   symbol,
   type,
   uri,
+  blockHash,
 }) => {
   return (
+    //"https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address=";
+    //https://testnet.explorer.emerald.oasis.dev/tx/0xd345c9c0e661fe72161e175b58233223e3070ebf696ea9e1387f8b423b9de53d/token-transfers
     <Container onClick={() => window.open(src, "_blank").focus()}>
       <Card>{src && <Image src={src} />}</Card>
       <Details>
         <Column>
           <Title>{name}</Title>
-          <Addr>{truncate(contractAddress, { length: 27 })}</Addr>
+          <Addr>{truncate(blockHash, { length: 27 })}</Addr>  
           <Row>
             <Symbol>{symbol}</Symbol>
             <Type>{type}</Type>

@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { ERC721, ERC721ABI, PROVIDER } from "utils/contracts";
+import { ERC721, ERC721ABI, PROVIDER, BASE_URI_TOKEN_LIST, BASE_URI_TOKEN_TXN} from "utils/contracts";
 import Card from "./Card";
 
 const Container = styled.div`
@@ -19,9 +19,6 @@ const Listings = styled.div`
   gap: 1rem;
 `;
 
-const BASE_URI =
-  "https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address=";
-
 export default () => {
   const [tokenList, setTokenList] = useState([]);
   const contract = new ethers.Contract(ERC721, ERC721ABI, PROVIDER);
@@ -29,25 +26,35 @@ export default () => {
 
   useEffect(async () => {
     try {
+
+
       setTokenList(
-        await axios.get(`${BASE_URI}${address}`).then(({ data: { result } }) =>
+        await axios.get(`${BASE_URI_TOKEN_TXN}${address}`).then(({ data:{result}}) => 
           Promise.all(
             (result || []).map(async (e) => {
-              if (e.type == "ERC-721" && e.symbol == "RPE")  {
-                const meta = await contract.tokenURI(e.balance);
+              if (e.tokenName == "RoseApe" && e.tokenSymbol == "RPE")  {
+                const meta = await contract.tokenURI(e.tokenID);
                 const cid = meta.match(/(?<=ipfs:\/\/).*?(?=\/)/)[0];
 
                 const {
-                  data: { image },
+                  data: { 
+                    description,
+                    name,
+                    image 
+                  },
                 } = await axios.get(
                   meta.replace("ipfs://", "https://ipfs.io/ipfs/")
                 );
-
                 return {
                   ...e,
                   uri: meta,
                   cid,
                   src: `https://ipfs.io/ipfs/${cid}${image}`,
+                  blockHash: e.blockHash,
+                  symbol: e.tokenSymbol,
+                  type: "ERC-721",
+                  name: name,
+                  description: description,
                 };
               };
             })
