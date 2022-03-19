@@ -71,7 +71,7 @@ export default () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
 
-      if (network.chainId !== 97) {
+      if (network.chainId !== 42261) {
         dispatch(
           toggleNotification({
             message: "Wrong Network Detected.",
@@ -109,7 +109,7 @@ export default () => {
         <Logo />
       </Left>
       <Right>
-        <Socials>
+        {/* <Socials>
           {SOCIALS.map((e, i) => (
             <Social
               key={`${e.title}-${i}`}
@@ -122,7 +122,7 @@ export default () => {
               />
             </Social>
           ))}
-        </Socials>
+        </Socials> */}
         <GradientBtn
           icon={metamaskIcon}
           onClick={connectMetamask}

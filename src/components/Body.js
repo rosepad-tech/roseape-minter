@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import styled from "styled-components";
 import { ERC721, ERC721ABI } from "utils/contracts";
 import GradientBtn from "./GradientBtn";
+import { Input, Button, notification, Radio } from 'antd'
 
 const Container = styled.div`
   @media (max-width: 1024px) {
@@ -115,19 +116,21 @@ const GradText = styled.span`
 `;
 
 export default () => {
+  const textStatus = "";
   const Mint = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
 
-    const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-
-    let tx = await contract["mint(uint256,string,string,string,string)"](
-      132,
-      `${"name"}`,
-      `${"description"}`,
-      `${"hash"}`,
-      `${"additional"}`
-    );
+    const contract = new ethers.Contract(ERC721, ERC721ABI, signer)
+    let tx = await contract["mint()"]({value: ethers.utils.parseEther("1")})
+    if(tx){
+      textStatus = "aaaaa";
+      notification.success({
+          message : 'Successfully Minted New NFT',
+          description : `Your NFT minted at transaction with hash ${tx.hash}`
+      })
+      // this.setState({creating : false, uploaded : false, name : '', description : '', hash : '', buffer : null, additional : ''})
+  }
 
     console.log("tx :", tx);
   };
@@ -135,34 +138,36 @@ export default () => {
   return (
     <Container>
       <Head>
-        <Title>Roseapes - Ape God</Title>
-        <Sub>Ape God - Blue</Sub>
+        <Title>Roseapes - Public Mint</Title>
+        {/* <Sub>Ape God - Blue</Sub> */}
       </Head>
-      <Span>
+      {/* <Span>
         <Value>
           <GradText>0</GradText> / 44
         </Value>
         <Label style={{ margin: "0.125rem 0" }}>0xb0831....9e8cb396374</Label>
-      </Span>
+      </Span> */}
       <LitContainer>
         <Span style={{ gap: "0.125rem" }}>
           <Label style={{ margin: "0" }}>Price</Label>
+          <Label>Get your very own RoseApes</Label>
           <Div>
-            <Price>$200</Price>
-            <Small>$ROSE</Small>
+            <Price>1</Price>
+            <Small>ROSE</Small>
           </Div>
         </Span>
       </LitContainer>
       <Options>
         <GradientBtn label="Mint" onClick={Mint} />
-        <GradientBtn label="Calculate Rarity" stroked={true} />
+        <GradientBtn label="View your RoseApes" stroked={true} />
       </Options>
+      <Div>{textStatus}</Div>
       <Div>
-        <Diamond />
-        <Span>
+        {/* <Diamond /> */}
+        {/* <Span>
           <Label>Rarity Score</Label>
           <Score>123.3</Score>
-        </Span>
+        </Span> */}
       </Div>
     </Container>
   );

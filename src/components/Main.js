@@ -1,5 +1,7 @@
 import brand from "assets/brand.png";
 import caret from "assets/caret.svg";
+import kingape from "assets/kingape.png";
+import hiddenape from "assets/hidden.png";
 import { StackedCarousel } from "react-stacked-carousel";
 import styled from "styled-components";
 import Body from "./Body";
@@ -77,9 +79,11 @@ const Span = styled.div`
 `;
 
 const Image = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 500px;
+  height: 500px;
   object-fit: cover;
+  border-style: dotted solid;
+  border-radius: 40px;
 `;
 
 export default () => {
@@ -89,43 +93,32 @@ export default () => {
     <Container>
       <Brand />
       <Span>
-        <Carousel>
+        <Image src={hiddenape} />
+        {/* <Carousel>
           <StackedCarousel
             autoRotate={false}
             onCardChange={onCardChange}
             containerClassName={"container"}
             cardClassName="card"
-            leftButton={
-              <CaretBtn style={{ left: 0 }}>
-                <Caret style={{ transform: "rotate(90deg)" }} />
-              </CaretBtn>
-            }
-            rightButton={
-              <CaretBtn style={{ right: 0 }}>
-                <Caret style={{ transform: "rotate(-90deg)" }} />
-              </CaretBtn>
-            }
+            // leftButton={
+            //   <CaretBtn style={{ left: 0 }}>
+            //     <Caret style={{ transform: "rotate(90deg)" }} />
+            //   </CaretBtn>
+            // }
+            // rightButton={
+            //   <CaretBtn style={{ right: 0 }}>
+            //     <Caret style={{ transform: "rotate(-90deg)" }} />
+            //   </CaretBtn>
+            // }
           >
             <Card key={"1"}>
-              <Image />
+              <Image src={hiddenape} />
             </Card>
             <Card key={"2"}>
               <Image />
             </Card>
-            <Card key={"3"}>
-              <Image />
-            </Card>
-            <Card key={"4"}>
-              <Image />
-            </Card>
-            <Card key={"5"}>
-              <Image />
-            </Card>
-            <Card key={"6"}>
-              <Image />
-            </Card>
           </StackedCarousel>
-        </Carousel>
+        </Carousel> */}
         <Body />
       </Span>
     </Container>
