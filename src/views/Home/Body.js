@@ -115,21 +115,21 @@ const GradText = styled.span`
 `;
 
 export default () => {
-  const textStatus = "";
+  let textStatus = "";
   const Mint = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
 
-    const contract = new ethers.Contract(ERC721, ERC721ABI, signer)
-    let tx = await contract["mint()"]({value: ethers.utils.parseEther("1")})
-    if(tx){
+    const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
+    let tx = await contract["mint()"]({ value: ethers.utils.parseEther("1") });
+    if (tx) {
       textStatus = "aaaaa";
       // notification.success({
       //     message : 'Successfully Minted New NFT',
       //     description : `Your NFT minted at transaction with hash ${tx.hash}`
       // })
       // this.setState({creating : false, uploaded : false, name : '', description : '', hash : '', buffer : null, additional : ''})
-  }
+    }
 
     console.log("tx :", tx);
   };
@@ -158,7 +158,11 @@ export default () => {
       </LitContainer>
       <Options>
         <GradientBtn label="Mint" onClick={Mint} />
-        <GradientBtn label="View your RoseApes" stroked={true} onClick={event =>  window.location.href='/collection'} />
+        <GradientBtn
+          label="View your RoseApes"
+          stroked={true}
+          onClick={(event) => (window.location.href = "/collection")}
+        />
       </Options>
       <Div>{textStatus}</Div>
       <Div>

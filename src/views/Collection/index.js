@@ -1,11 +1,9 @@
+import axios from "axios";
 import { ethers } from "ethers";
-import { compact, range } from "lodash";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { TEST_COLLECTIONS, TEST_DATA } from "test";
 import { ERC721, ERC721ABI, PROVIDER } from "utils/contracts";
-import { bin2String } from "utils/helpers";
 import Card from "./Card";
 
 const Container = styled.div`
@@ -21,74 +19,51 @@ const Listings = styled.div`
   gap: 1rem;
 `;
 
+const BASE_URI =
+  "https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address=";
+
 export default () => {
-  
   const [tokenList, setTokenList] = useState([]);
   const contract = new ethers.Contract(ERC721, ERC721ABI, PROVIDER);
   const address = useSelector((state) => state.global.address);
 
-  
-  // // Simple GET request using fetch
-  // fetch('https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address='+address)
-  //     .then(response => response.json())
-  //     .then(data => setTokenList(data.result));
-  
-
-  // tokenList.map(e => {
-  //   console.log(e);
-  //   console.log(contract.tokenURI(e.balance));
-
-  // });
-
-  //  get the balance for each (they are token id)
-
-  //  call contract tokenURI passing the "balance" as token id.
-
-  // this returns a IPFS url with json. Json holds the name, description and image file for each token.
-  
-
-  const [collection, setCollection] = useState([]);
-
-  
   useEffect(async () => {
     try {
-      const totalSupply = (await contract.totalSupply()).toNumber();
+      setTokenList(
+        await axios.get(`${BASE_URI}${address}`).then(({ data: { result } }) =>
+          Promise.all(
+            (result || []).map(async (e) => {
+              if (e.type == "ERC-721" && e.symbol == "RPE")  {
+                const meta = await contract.tokenURI(e.balance);
+                const cid = meta.match(/(?<=ipfs:\/\/).*?(?=\/)/)[0];
 
-      const items = await Promise.all(
-        range(totalSupply).map(async (id) => {
-          if (id === 0) return;
+                const {
+                  data: { image },
+                } = await axios.get(
+                  meta.replace("ipfs://", "https://ipfs.io/ipfs/")
+                );
 
-          const owner = await contract.ownerOf(id);
-          if (owner === address) {
-            const info = await contract.tokenInfo(id);
-
-            return {
-              id,
-              uri: bin2String(info[2]),
-              name: bin2String(info[1]),
-              description: bin2String(info[0]),
-              info: bin2String(info[3]),
-            };
-          }
-        })
+                return {
+                  ...e,
+                  uri: meta,
+                  cid,
+                  src: `https://ipfs.io/ipfs/${cid}${image}`,
+                };
+              };
+            })
+          )
+        )
       );
-
-      setCollection(compact(items));
-
-      console.log(collection);
     } catch (error) {
       console.log(error);
-      // throw Error(error);
     }
-  }, []);
+  }, [address]);
 
   return (
     <Container>
       <Listings>
-        {(collection.length ? collection : TEST_DATA.result).map(
-          (e) => e &&          
-          <Card key={e.id} {...e}  />
-
+        {((tokenList.length && tokenList) || []).map(
+          (e) => e && <Card key={e.contractAddress} {...e} />
         )}
       </Listings>
     </Container>
