@@ -22,6 +22,8 @@ const Container = styled.div`
   backdrop-filter: blur(10px);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
   width: 100%;
+  top:0;
+  z-index: 100; 
 `;
 
 const Right = styled.div`
