@@ -552,6 +552,7 @@ export const BASE_URI_TOKEN_TXN = "https://testnet.explorer.emerald.oasis.dev/ap
 
 export const BASE_URI_TX = "https://testnet.explorer.emerald.oasis.dev/tx/";
 export const BASE_URI_TX_TOKEN_TRANSFERS = "/token-transfers"
+export const TEST_NET = true;
 //https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokentx&address=0x4A7cf0919703CA8d392241B7917d524536bAb143
    //"https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address=";
     //https://testnet.explorer.emerald.oasis.dev/tx/0xd345c9c0e661fe72161e175b58233223e3070ebf696ea9e1387f8b423b9de53d/token-transfers

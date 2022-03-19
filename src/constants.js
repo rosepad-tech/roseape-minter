@@ -3,6 +3,7 @@ import medium from "assets/medium.svg";
 import telegram from "assets/telegram.svg";
 import twitter from "assets/twitter.svg";
 
+
 export const SOCIALS = [
   {
     title: "Twitter",

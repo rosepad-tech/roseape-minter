@@ -8,7 +8,8 @@ import { setAddress } from "store/global";
 import { toggleNotification } from "store/notification";
 import styled from "styled-components";
 import { centerEllipsis } from "utils/helpers";
-import { ROUTES, SOCIALS, BASE } from "../constants";
+import { ROUTES, SOCIALS, BASE} from "../constants";
+import {TEST_NET} from "../utils/contracts";
 import GradientBtn from "./GradientBtn";
 
 const Container = styled.div`
@@ -201,11 +202,15 @@ export default () => {
             </Social>
           ))}
         </Socials> */}
-        {/* <GradientBtn
-          icon={metamaskIcon}
-          onClick={(event) => (window.open("", "_blank"))}
-          label="Clear"
-        /> */}
+        { TEST_NET ? 
+        <GradientBtn
+          
+          stroked={true}
+          onClick={(event) => (window.open("https://faucet.testnet.oasis.dev/", "_blank"))}
+          label="Get TEST ROSE Tokens"
+        />
+        : console.log("Main")
+        }
         <GradientBtn
           icon={metamaskIcon}
           onClick={connectMetamask}
