@@ -37,7 +37,7 @@ const SocialImg = styled.img`
 export default () => {
   return (
     <Container>
-      <Socials>
+      {/* <Socials>
         {SOCIALS.map((e, i) => (
           <Social
             key={`${e.title}-${i}`}
@@ -50,7 +50,7 @@ export default () => {
             />
           </Social>
         ))}
-      </Socials>
+      </Socials> */}
     </Container>
   );
 };
