@@ -8,7 +8,7 @@ import { setAddress } from "store/global";
 import { toggleNotification } from "store/notification";
 import styled from "styled-components";
 import { centerEllipsis } from "utils/helpers";
-import { ROUTES, SOCIALS } from "../constants";
+import { ROUTES, SOCIALS, BASE } from "../constants";
 import GradientBtn from "./GradientBtn";
 
 const Container = styled.div`
@@ -98,7 +98,9 @@ export default () => {
   const navigate = useNavigate();
 
   const connectMetamask = async () => {
+    
     if (window.ethereum) {
+      const accounts = await window.ethereum.request({method: 'eth_accounts'});
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
 
@@ -106,14 +108,29 @@ export default () => {
         dispatch(
           toggleNotification({
             message: "Wrong Network Detected.",
-            description: "Please connect to Binance Test Smart Chain",
+            description: "Please connect to Oasis Test Network",
           })
         );
 
         return;
       } else {
-        setMetamaskConnected(true);
-        localStorage.setItem("roseapeMetamaskConnected", true);
+        
+        if (localStorage.getItem("roseapeMetamaskConnected") && accounts.length == 0) {
+          setMetamaskConnected(false);
+          localStorage.setItem("roseapeMetamaskConnected", false);
+        }
+
+        await window.ethereum.request({ method: 'eth_requestAccounts' })
+          .then((accounts) => {
+            console.log(">>>>>");
+            if (accounts.length > 0) {
+              dispatch(setAddress(accounts[0].toLowerCase()));
+              setMetamaskConnected(true);
+              localStorage.setItem("roseapeMetamaskConnected", true);
+            }
+          }
+        );
+
       }
     } else {
       dispatch(
@@ -126,11 +143,30 @@ export default () => {
     }
   };
 
+  const clearMetamaskConnection = async () => {
+    setMetamaskConnected(false);
+    localStorage.setItem("roseapeMetamaskConnected", false);
+  }
+
+  window.ethereum.on('accountsChanged', function (accounts) {
+    dispatch(setAddress(accounts[0].toLowerCase()));
+    setMetamaskConnected(true);
+    localStorage.setItem("roseapeMetamaskConnected", true);
+  })
+
   useEffect(async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const accounts = await provider.listAccounts();
+
+    if (localStorage.getItem("roseapeMetamaskConnected") && accounts.length == 0) {
+      setMetamaskConnected(false);
+      localStorage.setItem("roseapeMetamaskConnected", false);
+    }
+    
     if (localStorage.getItem("roseapeMetamaskConnected")) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const accounts = await provider.listAccounts();
-      dispatch(setAddress(accounts[0]));
+      dispatch(setAddress(accounts[0].toLowerCase()));
     }
   }, []);
 
@@ -165,6 +201,11 @@ export default () => {
             </Social>
           ))}
         </Socials> */}
+        {/* <GradientBtn
+          icon={metamaskIcon}
+          onClick={(event) => (window.open("", "_blank"))}
+          label="Clear"
+        /> */}
         <GradientBtn
           icon={metamaskIcon}
           onClick={connectMetamask}

@@ -59,7 +59,7 @@ export default () => {
       dispatch(
         toggleNotification({
           message:
-            "Network Change Detected In Metamask. Please ensure you are connected to BSC Testnet.",
+            "Network Change Detected In Metamask. Please ensure you are connected to Network.",
         })
       );
     });

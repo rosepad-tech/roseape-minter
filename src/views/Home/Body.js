@@ -181,7 +181,7 @@ export default () => {
       <Options>
       {showHash ? 
         <GradientBtn
-          label="View your newly minted RoseApe!"
+          label="View your RoseApe NFT"
           stroked={true}
           onClick={(event) => (window.open(BASE_URI_TX+hash, "_blank"))}
         />
