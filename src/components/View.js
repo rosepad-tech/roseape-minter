@@ -15,6 +15,7 @@ export default () => {
       <Routes>
         <Route index element={<Home />} />
         <Route path="collection" element={<Collection />}></Route>
+        <Route component={Home} />
       </Routes>
     </Container>
   );

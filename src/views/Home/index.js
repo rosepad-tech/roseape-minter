@@ -86,8 +86,6 @@ const Image = styled.img`
   height: 350px;
   object-fit: cover;
   border-radius: 40px;
-  background: linear-gradient(90deg, yellow, orange, red, violet, purple, blue, yellow);
-  animation: animate 8s linear infinite;
 `;
 
 export default () => {
