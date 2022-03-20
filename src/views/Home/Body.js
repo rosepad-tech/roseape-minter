@@ -7,6 +7,8 @@ import GradientMintBtn from "../../components/GradientMintBtn";
 import { useEffect, useState } from "react";
 import { TripleMaze } from 'react-spinner-animated';
 import { toggleNotification } from "store/notification";
+import useSound from 'use-sound';
+import mintSound from 'assets/button-3.mp3';
 
 
 import 'assets/spinner/index.css'
@@ -126,9 +128,15 @@ export default () => {
   const [showHash, setShowHash] = useState(false);
   const [loadingText, setLoadingText] = useState("Mint");
   const [hash, setHash] = useState("");
+  const [playActive] = useSound(
+    mintSound,
+    { volume: 0.25 }
+  );
+
   let textStatus = "";
   const Mint = async () => {
     console.log("Minting");
+    playActive();
     setLoading(true);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
