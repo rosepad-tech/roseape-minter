@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import styled from "styled-components";
 import { ERC721, ERC721ABI, BASE_URI_TX } from "utils/contracts";
 import GradientBtn from "../../components/GradientBtn";
+import GradientMintBtn from "../../components/GradientMintBtn";
 import { useEffect, useState } from "react";
 import { TripleMaze } from 'react-spinner-animated';
 import { toggleNotification } from "store/notification";
@@ -177,12 +178,16 @@ export default () => {
       
     
       <Options>
-        <GradientBtn label={loadingText} onClick={Mint} />
+        {loading ?
+         <GradientMintBtn label={loadingText}></GradientMintBtn> 
+         : 
+         <GradientMintBtn label={loadingText} onClick={Mint}></GradientMintBtn>
+        }
       </Options>
       <Options>
       {showHash ? 
         <GradientBtn
-          label="View your RoseApe NFT"
+          label="View your NFT Transaction"
           stroked={true}
           onClick={(event) => (window.open(BASE_URI_TX+hash, "_blank"))}
         />

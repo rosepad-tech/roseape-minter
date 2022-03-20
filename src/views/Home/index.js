@@ -82,11 +82,12 @@ const Span = styled.div`
 `;
 
 const Image = styled.img`
-  width: 500px;
-  height: 500px;
+  width: 350px;
+  height: 350px;
   object-fit: cover;
-  border-style: dotted solid;
   border-radius: 40px;
+  background: linear-gradient(90deg, yellow, orange, red, violet, purple, blue, yellow);
+  animation: animate 8s linear infinite;
 `;
 
 export default () => {

@@ -1,6 +1,7 @@
 import { truncate } from "lodash";
 import styled from "styled-components";
 import GradientBtn from "../../components/GradientBtn";
+import GradientMintBtn from "../../components/GradientMintBtn";
 import { ERC721, ERC721ABI, BASE_URI_TX } from "utils/contracts";
 
 const Container = styled.div`
@@ -99,10 +100,10 @@ export default ({
             <Type>{type}</Type>
           </Row>
           <Row>
-          <GradientBtn 
+          <GradientMintBtn 
           label="TXN"
           onClick={(event) => (window.open(BASE_URI_TX+hash, "_blank"))}/>
-          <GradientBtn 
+          <GradientMintBtn 
           label="IPFS"
           onClick={(event) => (window.open(src, "_blank"))}/>
           </Row>

@@ -11,13 +11,14 @@ import { centerEllipsis } from "utils/helpers";
 import { ROUTES, SOCIALS, BASE} from "../constants";
 import {TEST_NET} from "../utils/contracts";
 import GradientBtn from "./GradientBtn";
+import GradientMintBtn from "./GradientMintBtn";
 
 const Container = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem 0rem 0rem;
   position: fixed;
   backdrop-filter: blur(10px);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
@@ -185,6 +186,9 @@ export default () => {
       <Left>
         <Logo />
       
+
+      </Left>
+      <Right>
       <Links>
         {ROUTES.map(({ id, title, link }) => (
           <Link
@@ -196,8 +200,6 @@ export default () => {
           </Link>
         ))}
       </Links>
-      </Left>
-      <Right>
         {/* <Socials>
           {SOCIALS.map((e, i) => (
             <Social
@@ -213,7 +215,7 @@ export default () => {
           ))}
         </Socials> */}
         { TEST_NET ? 
-        <GradientBtn
+        <GradientMintBtn
           
           stroked={true}
           onClick={(event) => (window.open("https://faucet.testnet.oasis.dev/", "_blank"))}
@@ -221,7 +223,7 @@ export default () => {
         />
         : console.log("Main")
         }
-        <GradientBtn
+        <GradientMintBtn
           icon={metamaskIcon}
           onClick={connectMetamask}
           label={metamaskConnected ? centerEllipsis(address) : "Connect Wallet"}

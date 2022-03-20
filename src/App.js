@@ -11,7 +11,7 @@ const Container = styled.div`
   height: 100vh;
   position: relative;
   overflow: auto;
-  padding: 1rem;
+  padding: 0rem;
   background: radial-gradient(circle at center, #ff00731a, transparent 40%),
     radial-gradient(circle at top left, #ff007140, transparent 12%),
     radial-gradient(circle at top right, #ff007140, transparent 15%),
