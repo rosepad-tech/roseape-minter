@@ -26,13 +26,13 @@ export default () => {
 
   useEffect(async () => {
     try {
-
       setTokenList(
         await axios.get(`${BASE_URI_TOKEN_TXN}${address}`).then(({ data:{result}}) => 
           Promise.all(
             (result || []).map(async (e) => {
-              if (e.tokenName == "RoseApe" && e.tokenSymbol == "RPE")  {
+              if (e.tokenName == "RoseApe" && e.tokenSymbol == "RPE" && e.contractAddress.toLowerCase() == `${ERC721}`.toLowerCase())  {
                 const meta = await contract.tokenURI(e.tokenID);
+                console.log(meta);
                 const cid = meta.match(/(?<=ipfs:\/\/).*?(?=\/)/)[0];
 
                 const {

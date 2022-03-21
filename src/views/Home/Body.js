@@ -4,11 +4,13 @@ import styled from "styled-components";
 import { ERC721, ERC721ABI, BASE_URI_TX } from "utils/contracts";
 import GradientBtn from "../../components/GradientBtn";
 import GradientMintBtn from "../../components/GradientMintBtn";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { TripleMaze } from 'react-spinner-animated';
 import { toggleNotification } from "store/notification";
 import useSound from 'use-sound';
 import mintSound from 'assets/button-3.mp3';
+import { QuantityPicker } from 'react-qty-picker';
 
 
 import 'assets/spinner/index.css'
@@ -127,6 +129,7 @@ export default () => {
   const [loading, setLoading] = useState(false);
   const [showHash, setShowHash] = useState(false);
   const [loadingText, setLoadingText] = useState("Mint");
+  const [quantity, setQuantity] = useState(1);
   const [hash, setHash] = useState("");
   const [playActive] = useSound(
     mintSound,
@@ -140,21 +143,42 @@ export default () => {
     setLoading(true);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
+    const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
+    //const address = useSelector((state) => state.global.address);
 
-    const contract = new ethers.Contract(ERC721, ERC721ABI, signer)
-    let tx = await contract["mint()"]({value: ethers.utils.parseEther("1")})
-    .then(tx => {
-      setLoadingText("Minting...");
-      tx.wait().then(receipt => {
-        setLoadingText("Complete! Mint another!");
-        setHash(receipt.transactionHash);
+    const whiteListPrice = 100;
+    const publicPrice = 150;
+    let value = 0;
+
+    const isUserWhiteListed = await contract.isUserWhiteListed(signer.getAddress());
+    console.log("isUserWhiteListed", isUserWhiteListed);
+    if (isUserWhiteListed) {
+      value = whiteListPrice * quantity;
+    } else {
+      value = publicPrice * quantity;
+    }
+
+    // test
+    value = 0;
+
+    let tx = await contract["mint(uint256)"](quantity,{value: ethers.utils.parseEther(value.toString())})
+      .then(tx => {
+        setLoadingText("Minting...");
+        tx.wait().then(receipt => {
+          setLoadingText("Minted! ");
+          setHash(receipt.transactionHash);
+          setLoading(false);
+          setShowHash(true);
+        }).catch(err => {
+          console.log(err);
+          setLoadingText("Mint");
+          setLoading(false);
+          setShowHash(false);
+        });
+      }).catch(error => {
+        setLoadingText("Mint");
         setLoading(false);
-        setShowHash(true);
       });
-    }).catch(error => {
-      setLoadingText("Mint");
-      setLoading(false);
-    });
   
   };
 
@@ -183,15 +207,24 @@ export default () => {
           </Div>
         </Span>
       </LitContainer>
+      <Small>How Many?</Small>
+      <Options>
+        <GradientMintBtn stroked={true} label={1} onClick={(value)=>{setQuantity(1);}} > </GradientMintBtn> 
+        <GradientMintBtn stroked={true} label={3} onClick={(value)=>{setQuantity(3);}} > </GradientMintBtn> 
+        <GradientMintBtn stroked={true} label={5} onClick={(value)=>{setQuantity(5);}} > </GradientMintBtn> 
+        <GradientMintBtn stroked={true} label={15} onClick={(value)=>{setQuantity(15);}} > </GradientMintBtn> 
+      </Options>
+      <Small>Ready?</Small>
       
-    
+      
       <Options>
         {loading ?
-         <GradientMintBtn label={loadingText}></GradientMintBtn> 
+         <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"}></GradientMintBtn> 
          : 
-         <GradientMintBtn label={loadingText} onClick={Mint}></GradientMintBtn>
+         <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"} onClick={Mint}></GradientMintBtn>
         }
       </Options>
+      
       <Options>
       {showHash ? 
         <GradientBtn

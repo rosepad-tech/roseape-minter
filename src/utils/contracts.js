@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-export const ERC721 = "0x6fA2D8E0763A46432B4B4Fb0eA54198D4af2BDb4";
+export const ERC721 = "0xAEDA530dB0C2daC756AC48A4eE421851E6248805";
 export const ERC721ABI = [
 	{
 		"inputs": [
@@ -13,6 +13,11 @@ export const ERC721ABI = [
 				"internalType": "string",
 				"name": "symbol_",
 				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "royalty_",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -115,6 +120,32 @@ export const ERC721ABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "publicAllAtOnce_",
+				"type": "uint256"
+			}
+		],
+		"name": "changePublicAllAtOnce",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "publicSalePrice_",
+				"type": "uint256"
+			}
+		],
+		"name": "changePublicSalePrice",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "bool",
 				"name": "_revealed",
 				"type": "bool"
@@ -129,17 +160,49 @@ export const ERC721ABI = [
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "salePrice_",
+				"name": "royalty_",
 				"type": "uint256"
 			}
 		],
-		"name": "changeSalePrice",
+		"name": "changeRoyalty",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "publicAllAtOnce_",
+				"type": "uint256"
+			}
+		],
+		"name": "changeWhiteListAllAtOnce",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "whiteListSalePrice_",
+				"type": "uint256"
+			}
+		],
+		"name": "changeWhiteListSalePrice",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "qty",
+				"type": "uint256"
+			}
+		],
 		"name": "mint",
 		"outputs": [],
 		"stateMutability": "payable",
@@ -163,6 +226,32 @@ export const ERC721ABI = [
 		],
 		"name": "OwnershipTransferred",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "_state",
+				"type": "bool"
+			}
+		],
+		"name": "pause",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "removeWhitelistUser",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -254,6 +343,37 @@ export const ERC721ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "setRoyalties",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "_testMode",
+				"type": "bool"
+			}
+		],
+		"name": "setToTestMode",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -315,6 +435,19 @@ export const ERC721ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "whitelistUser",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "withdraw",
 		"outputs": [],
@@ -336,7 +469,59 @@ export const ERC721ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "_salePrice",
+		"name": "_publicMaxAllAtOnce",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "_publicSalePrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "_testPrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "_whiteListMaxAllAtOnce",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "_whiteListSalePrice",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -436,6 +621,25 @@ export const ERC721ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "isUserWhiteListed",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "name",
 		"outputs": [
@@ -482,12 +686,54 @@ export const ERC721ABI = [
 	},
 	{
 		"inputs": [],
+		"name": "paused",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "revealed",
 		"outputs": [
 			{
 				"internalType": "bool",
 				"name": "",
 				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "royaltyInfo",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "receiver",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "royaltyAmount",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -526,6 +772,19 @@ export const ERC721ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "testMode",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -539,6 +798,25 @@ export const ERC721ABI = [
 				"internalType": "string",
 				"name": "",
 				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "whiteListed",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
