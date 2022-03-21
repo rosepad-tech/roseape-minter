@@ -131,12 +131,34 @@ export default () => {
   const [loadingText, setLoadingText] = useState("Mint");
   const [quantity, setQuantity] = useState(1);
   const [hash, setHash] = useState("");
+  const [price, setPrice] = useState("");
   const [playActive] = useSound(
     mintSound,
     { volume: 0.25 }
   );
 
   let textStatus = "";
+  const whiteListPrice = 100;
+  const publicPrice = 150;
+  let value = 0;
+
+
+  const detectUserSetting = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
+    const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
+
+    const isUserWhiteListed = await contract.isUserWhiteListed(signer.getAddress());
+    console.log("isUserWhiteListed", isUserWhiteListed);
+    if (isUserWhiteListed) {
+      value = whiteListPrice * quantity;
+      setPrice(whiteListPrice);
+    } else {
+      value = publicPrice * quantity;
+      setPrice(publicPrice);
+    }
+  }
+  
   const Mint = async () => {
     console.log("Minting");
     playActive();
@@ -144,22 +166,19 @@ export default () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-    //const address = useSelector((state) => state.global.address);
-
-    const whiteListPrice = 100;
-    const publicPrice = 150;
-    let value = 0;
 
     const isUserWhiteListed = await contract.isUserWhiteListed(signer.getAddress());
     console.log("isUserWhiteListed", isUserWhiteListed);
     if (isUserWhiteListed) {
       value = whiteListPrice * quantity;
+      setPrice(whiteListPrice);
     } else {
       value = publicPrice * quantity;
+      setPrice(publicPrice);
     }
 
     // test
-    value = 1;
+    //value = 1;
 
     let tx = await contract["mint(uint256)"](quantity,{value: ethers.utils.parseEther(value.toString())})
       .then(tx => {
@@ -182,7 +201,7 @@ export default () => {
   
   };
 
-  
+  detectUserSetting();
   return (
     <Container>
       
@@ -202,17 +221,17 @@ export default () => {
           <Label style={{ margin: "0" }}>Price</Label>
           {/* <Label>Get your very own RoseApes</Label> */}
           <Div>
-            <Price>1</Price>
+            <Price>{price}</Price>
             <Small>ROSE</Small>
           </Div>
         </Span>
       </LitContainer>
       <Small>How Many?</Small>
       <Options>
-        <GradientMintBtn stroked={true} label={1} onClick={(value)=>{setQuantity(1);setLoadingText("Mint");showHash(false);}} > </GradientMintBtn> 
-        <GradientMintBtn stroked={true} label={3} onClick={(value)=>{setQuantity(3);setLoadingText("Mint");showHash(false);}} > </GradientMintBtn> 
-        <GradientMintBtn stroked={true} label={5} onClick={(value)=>{setQuantity(5);setLoadingText("Mint");showHash(false);}} > </GradientMintBtn> 
-        <GradientMintBtn stroked={true} label={15} onClick={(value)=>{setQuantity(15);setLoadingText("Mint");showHash(false);}} > </GradientMintBtn> 
+        <GradientMintBtn stroked={true} label={1} onClick={(value)=>{setQuantity(1);setLoadingText("Mint");setShowHash(false);}} > </GradientMintBtn> 
+        <GradientMintBtn stroked={true} label={3} onClick={(value)=>{setQuantity(3);setLoadingText("Mint");setShowHash(false);}} > </GradientMintBtn> 
+        <GradientMintBtn stroked={true} label={5} onClick={(value)=>{setQuantity(5);setLoadingText("Mint");setShowHash(false);}} > </GradientMintBtn> 
+        <GradientMintBtn stroked={true} label={15} onClick={(value)=>{setQuantity(15);setLoadingText("Mint");setShowHash(false);}} > </GradientMintBtn> 
       </Options>
       <Small>Ready?</Small>
       

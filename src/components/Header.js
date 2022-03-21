@@ -134,7 +134,6 @@ export default () => {
 
         await window.ethereum.request({ method: 'eth_requestAccounts' })
           .then((accounts) => {
-            console.log(">>>>>");
             if (accounts.length > 0) {
               dispatch(setAddress(accounts[0].toLowerCase()));
               setMetamaskConnected(true);
