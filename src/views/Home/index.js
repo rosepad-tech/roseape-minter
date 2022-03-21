@@ -93,7 +93,7 @@ export default () => {
 
   return (
     <Container>
-      <Brand />
+      
       <Span>
         <Image src={bossape} />
         {/* <Carousel>

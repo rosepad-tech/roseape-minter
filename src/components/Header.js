@@ -1,4 +1,5 @@
 import logo from "assets/logo.png";
+import brand from "assets/brand.png";
 import metamaskIcon from "assets/metamask.png";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
@@ -90,6 +91,11 @@ const Link = styled.button`
   &.active {
     opacity: 0.92;
   }
+`;
+
+const Brand = styled.img.attrs({ src: brand })`
+  width: 12rem;
+  padding: 0px 0px 0px 2rem;
 `;
 
 export default () => {
@@ -184,9 +190,7 @@ export default () => {
     
     <Container>
       <Left>
-        <Logo />
-      
-
+      <Brand/>
       </Left>
       <Right>
       <Links>

@@ -159,13 +159,13 @@ export default () => {
     }
 
     // test
-    value = 0;
+    value = 1;
 
     let tx = await contract["mint(uint256)"](quantity,{value: ethers.utils.parseEther(value.toString())})
       .then(tx => {
         setLoadingText("Minting...");
         tx.wait().then(receipt => {
-          setLoadingText("Minted! ");
+          setLoadingText("Minted ");
           setHash(receipt.transactionHash);
           setLoading(false);
           setShowHash(true);
@@ -209,10 +209,10 @@ export default () => {
       </LitContainer>
       <Small>How Many?</Small>
       <Options>
-        <GradientMintBtn stroked={true} label={1} onClick={(value)=>{setQuantity(1);}} > </GradientMintBtn> 
-        <GradientMintBtn stroked={true} label={3} onClick={(value)=>{setQuantity(3);}} > </GradientMintBtn> 
-        <GradientMintBtn stroked={true} label={5} onClick={(value)=>{setQuantity(5);}} > </GradientMintBtn> 
-        <GradientMintBtn stroked={true} label={15} onClick={(value)=>{setQuantity(15);}} > </GradientMintBtn> 
+        <GradientMintBtn stroked={true} label={1} onClick={(value)=>{setQuantity(1);setLoadingText("Mint");showHash(false);}} > </GradientMintBtn> 
+        <GradientMintBtn stroked={true} label={3} onClick={(value)=>{setQuantity(3);setLoadingText("Mint");showHash(false);}} > </GradientMintBtn> 
+        <GradientMintBtn stroked={true} label={5} onClick={(value)=>{setQuantity(5);setLoadingText("Mint");showHash(false);}} > </GradientMintBtn> 
+        <GradientMintBtn stroked={true} label={15} onClick={(value)=>{setQuantity(15);setLoadingText("Mint");showHash(false);}} > </GradientMintBtn> 
       </Options>
       <Small>Ready?</Small>
       
