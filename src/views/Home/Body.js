@@ -178,7 +178,7 @@ export default () => {
     }
 
     // test
-    //value = 1;
+    value = 1;
 
     let tx = await contract["mint(uint256)"](quantity,{value: ethers.utils.parseEther(value.toString())})
       .then(tx => {
