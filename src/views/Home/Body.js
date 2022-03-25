@@ -11,6 +11,7 @@ import { toggleNotification } from "store/notification";
 import useSound from 'use-sound';
 import mintSound from 'assets/button-3.mp3';
 import { QuantityPicker } from 'react-qty-picker';
+import axios from "axios";
 
 
 import 'assets/spinner/index.css'
@@ -142,15 +143,41 @@ export default () => {
   const publicPrice = 150;
   let value = 0;
 
+  const checkIfAddressWhiteListed = async (address, hash) =>  {
+    console.log(address);
+    var result = false;
+    await axios.get("https://ipfs.io/ipfs/" + hash)
+      .then(res => {
+        console.log(res)
+        if (res.data.data.indexOf(address) !== -1) {
+          console.log("Address is white listed")
+          result = true;
+        } else {
+          result = false;
+        }
+      }
+    );
+    return result;
+  };
 
   const detectUserSetting = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
+    const address = await signer.getAddress();
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
 
-    const isUserWhiteListed = await contract.isUserWhiteListed(signer.getAddress());
+    //  contract whitelist
+    const isUserWhiteListed = await contract.isUserWhiteListed(address);
+
+    //  ipfs hash whitelist
+    const whiteListHash = await contract.getWhiteListHash();
+    const isWhiteListOnHash = await checkIfAddressWhiteListed(address, whiteListHash);
+    
+    console.log("isWhiteListOnHash", isWhiteListOnHash);
     console.log("isUserWhiteListed", isUserWhiteListed);
-    if (isUserWhiteListed) {
+    
+    //   check if contract whitelisted first
+    if (isUserWhiteListed || isWhiteListOnHash) {
       value = whiteListPrice * quantity;
       setPrice(whiteListPrice);
     } else {
@@ -158,7 +185,7 @@ export default () => {
       setPrice(publicPrice);
     }
   }
-  
+
   const Mint = async () => {
     console.log("Minting");
     playActive();
@@ -166,8 +193,14 @@ export default () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-
+    const whiteListHash = await contract.getWhiteListHash();
     const isUserWhiteListed = await contract.isUserWhiteListed(signer.getAddress());
+
+    if (!isUserWhiteListed) {
+      //  check if address is on the hash whitelist
+
+    }
+    console.log("whiteListHash", whiteListHash);
     console.log("isUserWhiteListed", isUserWhiteListed);
     if (isUserWhiteListed) {
       value = whiteListPrice * quantity;
@@ -180,7 +213,7 @@ export default () => {
     // test
     value = 1;
 
-    let tx = await contract["mint(uint256)"](quantity,{value: ethers.utils.parseEther(value.toString())})
+    let tx = await contract["mint(uint256)"](quantity, { value: ethers.utils.parseEther(value.toString()) })
       .then(tx => {
         setLoadingText("Minting...");
         tx.wait().then(receipt => {
@@ -198,13 +231,13 @@ export default () => {
         setLoadingText("Mint");
         setLoading(false);
       });
-  
+
   };
 
   detectUserSetting();
   return (
     <Container>
-      
+
       <Head>
         <Title>RoseApes721</Title>
         <Sub>Mint your RoseApe now!</Sub>
@@ -212,10 +245,10 @@ export default () => {
       <Span>
         <Value>
           <GradText>Rose#Ape</GradText>
-          
+
         </Value>
       </Span>
-      
+
       <LitContainer>
         <Span style={{ gap: "0.125rem" }}>
           <Label style={{ margin: "0" }}>Price</Label>
@@ -228,32 +261,32 @@ export default () => {
       </LitContainer>
       <Small>How Many?</Small>
       <Options>
-        <GradientMintBtn stroked={true} label={1} onClick={(value)=>{setQuantity(1);setLoadingText("Mint");setShowHash(false);}} > </GradientMintBtn> 
-        <GradientMintBtn stroked={true} label={3} onClick={(value)=>{setQuantity(3);setLoadingText("Mint");setShowHash(false);}} > </GradientMintBtn> 
-        <GradientMintBtn stroked={true} label={5} onClick={(value)=>{setQuantity(5);setLoadingText("Mint");setShowHash(false);}} > </GradientMintBtn> 
-        <GradientMintBtn stroked={true} label={15} onClick={(value)=>{setQuantity(15);setLoadingText("Mint");setShowHash(false);}} > </GradientMintBtn> 
+        <GradientMintBtn stroked={true} label={1} onClick={(value) => { setQuantity(1); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
+        <GradientMintBtn stroked={true} label={3} onClick={(value) => { setQuantity(3); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
+        <GradientMintBtn stroked={true} label={5} onClick={(value) => { setQuantity(5); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
+        <GradientMintBtn stroked={true} label={15} onClick={(value) => { setQuantity(15); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
       </Options>
       <Small>Ready?</Small>
-      
-      
+
+
       <Options>
         {loading ?
-         <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"}></GradientMintBtn> 
-         : 
-         <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"} onClick={Mint}></GradientMintBtn>
+          <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"}></GradientMintBtn>
+          :
+          <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"} onClick={Mint}></GradientMintBtn>
         }
       </Options>
-      
+
       <Options>
-      {showHash ? 
-        <GradientBtn
-          label="View your NFT Transaction"
-          stroked={true}
-          onClick={(event) => (window.open(BASE_URI_TX+hash, "_blank"))}
-        />
-        : null}
+        {showHash ?
+          <GradientBtn
+            label="View your NFT Transaction"
+            stroked={true}
+            onClick={(event) => (window.open(BASE_URI_TX + hash, "_blank"))}
+          />
+          : null}
       </Options>
-      
+
       <Div>{textStatus}</Div>
       <Div>
         {/* <Diamond /> */}

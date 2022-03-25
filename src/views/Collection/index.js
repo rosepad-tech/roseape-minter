@@ -32,9 +32,7 @@ export default () => {
             (result || []).map(async (e) => {
               if (e.tokenName == "RoseApe" && e.tokenSymbol == "RPE" && e.contractAddress.toLowerCase() == `${ERC721}`.toLowerCase())  {
                 const meta = await contract.tokenURI(e.tokenID);
-                console.log(meta);
                 const cid = meta.match(/(?<=ipfs:\/\/).*?(?=\/)/)[0];
-
                 const {
                   data: { 
                     description,

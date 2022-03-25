@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-export const ERC721 = "0xAEDA530dB0C2daC756AC48A4eE421851E6248805";
+export const ERC721 = "0x1d681208d901BBd296DfDfb6BA4861B98858e903";
 export const ERC721ABI = [
 	{
 		"inputs": [
@@ -374,6 +374,19 @@ export const ERC721ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_whiteListHash",
+				"type": "string"
+			}
+		],
+		"name": "setWhiteListHash",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -591,6 +604,19 @@ export const ERC721ABI = [
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getWhiteListHash",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -817,6 +843,19 @@ export const ERC721ABI = [
 				"internalType": "bool",
 				"name": "",
 				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "whiteListHash",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
