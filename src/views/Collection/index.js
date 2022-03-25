@@ -42,6 +42,7 @@ export default () => {
                 } = await axios.get(
                   meta.replace("ipfs://", "https://ipfs.io/ipfs/")
                 );
+
                 return {
                   ...e,
                   uri: meta,

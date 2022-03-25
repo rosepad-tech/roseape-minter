@@ -1,7 +1,7 @@
 import diamond from "assets/diamond.svg";
 import { ethers } from "ethers";
 import styled from "styled-components";
-import { ERC721, ERC721ABI, BASE_URI_TX } from "utils/contracts";
+import { ERC721, ERC721ABI, BASE_URI_TX,BASE_URI_TOKEN_TXN } from "utils/contracts";
 import GradientBtn from "../../components/GradientBtn";
 import GradientMintBtn from "../../components/GradientMintBtn";
 import { useSelector } from "react-redux";
@@ -133,6 +133,7 @@ export default () => {
   const [quantity, setQuantity] = useState(1);
   const [hash, setHash] = useState("");
   const [price, setPrice] = useState("");
+  const [messageMoreThan3Nfts, setMessageMoreThan3Nfts] = useState("");
   const [playActive] = useSound(
     mintSound,
     { volume: 0.25 }
@@ -143,7 +144,23 @@ export default () => {
   const publicPrice = 150;
   let value = 0;
 
-  const checkIfAddressWhiteListed = async (address, hash) =>  {
+  const checkNumberOfRoseApeForWhiteList = async (address, hash) => {
+    var counter = 0;
+    await axios.get(`${BASE_URI_TOKEN_TXN}${address}`).then(({ data: { result } }) =>
+      Promise.all(
+        (result || []).map(async (e) => {
+          if (e.tokenName == "RoseApe" && e.tokenSymbol == "RPE" && e.contractAddress.toLowerCase() == `${ERC721}`.toLowerCase()) {
+            counter++;
+          };
+        })
+      )
+    )
+
+    return counter;
+
+  };
+
+  const checkIfAddressWhiteListed = async (address, hash) => {
     console.log(address);
     var result = false;
     await axios.get("https://ipfs.io/ipfs/" + hash)
@@ -156,8 +173,17 @@ export default () => {
           result = false;
         }
       }
-    );
-    return result;
+      );
+
+    //   check if whitelist has more than 3 nfts
+    await checkNumberOfRoseApeForWhiteList(address, hash)
+      .then(res => {
+        if (res >= 3) {
+          setMessageMoreThan3Nfts("You have already minted 3 NFTs.");
+          result = false;
+        }
+      });
+      return result;
   };
 
   const detectUserSetting = async () => {
@@ -172,10 +198,10 @@ export default () => {
     //  ipfs hash whitelist
     const whiteListHash = await contract.getWhiteListHash();
     const isWhiteListOnHash = await checkIfAddressWhiteListed(address, whiteListHash);
-    
+
     console.log("isWhiteListOnHash", isWhiteListOnHash);
     console.log("isUserWhiteListed", isUserWhiteListed);
-    
+
     //   check if contract whitelisted first
     if (isUserWhiteListed || isWhiteListOnHash) {
       value = whiteListPrice * quantity;
@@ -188,7 +214,6 @@ export default () => {
 
   const Mint = async () => {
     console.log("Minting");
-    playActive();
     setLoading(true);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
@@ -200,10 +225,7 @@ export default () => {
     //  ipfs hash whitelist
     const whiteListHash = await contract.getWhiteListHash();
     const isWhiteListOnHash = await checkIfAddressWhiteListed(address, whiteListHash);
-    
-    console.log("isWhiteListOnHash", isWhiteListOnHash);
-    console.log("isUserWhiteListed", isUserWhiteListed);
-    
+
     //   check if contract whitelisted first
     if (isUserWhiteListed || isWhiteListOnHash) {
       value = whiteListPrice * quantity;
@@ -270,7 +292,6 @@ export default () => {
         <GradientMintBtn stroked={true} label={15} onClick={(value) => { setQuantity(15); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
       </Options>
       <Small>Ready?</Small>
-
 
       <Options>
         {loading ?
