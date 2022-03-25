@@ -192,17 +192,20 @@ export default () => {
     setLoading(true);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
+    const address = await signer.getAddress();
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
+    //  contract whitelist
+    const isUserWhiteListed = await contract.isUserWhiteListed(address);
+
+    //  ipfs hash whitelist
     const whiteListHash = await contract.getWhiteListHash();
-    const isUserWhiteListed = await contract.isUserWhiteListed(signer.getAddress());
-
-    if (!isUserWhiteListed) {
-      //  check if address is on the hash whitelist
-
-    }
-    console.log("whiteListHash", whiteListHash);
+    const isWhiteListOnHash = await checkIfAddressWhiteListed(address, whiteListHash);
+    
+    console.log("isWhiteListOnHash", isWhiteListOnHash);
     console.log("isUserWhiteListed", isUserWhiteListed);
-    if (isUserWhiteListed) {
+    
+    //   check if contract whitelisted first
+    if (isUserWhiteListed || isWhiteListOnHash) {
       value = whiteListPrice * quantity;
       setPrice(whiteListPrice);
     } else {
