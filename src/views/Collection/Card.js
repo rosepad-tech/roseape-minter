@@ -2,7 +2,7 @@ import { truncate } from "lodash";
 import styled from "styled-components";
 import GradientBtn from "../../components/GradientBtn";
 import GradientMintBtn from "../../components/GradientMintBtn";
-import { ERC721, ERC721ABI, BASE_URI_TX } from "utils/contracts";
+import { BASE_URI_TX } from "utils/contracts";
 import useSound from 'use-sound';
 import mintSound from 'assets/button-3.mp3';
 
@@ -110,10 +110,10 @@ export default ({
           <Row>
           <GradientMintBtn 
           label="TXN"
-          onClick={(event) => {playActive();window.open(BASE_URI_TX+hash, "_blank")}}/>
+          onClick={(event) => {window.open(BASE_URI_TX+hash, "_blank")}}/>
           <GradientMintBtn 
           label="IPFS"
-          onClick={(event) => {playActive();window.open(src, "_blank")}}/>
+          onClick={(event) => {window.open(src, "_blank")}}/>
           </Row>
         </Column>
         

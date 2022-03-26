@@ -161,11 +161,9 @@ export default () => {
   };
 
   const checkIfAddressWhiteListed = async (address, hash) => {
-    console.log(address);
     var result = false;
     await axios.get("https://ipfs.io/ipfs/" + hash)
       .then(res => {
-        console.log(res)
         if (res.data.data.indexOf(address) !== -1) {
           console.log("Address is white listed")
           result = true;
@@ -173,7 +171,7 @@ export default () => {
           result = false;
         }
       }
-      );
+    );
 
     //   check if whitelist has more than 3 nfts
     await checkNumberOfRoseApeForWhiteList(address, hash)
@@ -199,9 +197,6 @@ export default () => {
     const whiteListHash = await contract.getWhiteListHash();
     const isWhiteListOnHash = await checkIfAddressWhiteListed(address, whiteListHash);
 
-    console.log("isWhiteListOnHash", isWhiteListOnHash);
-    console.log("isUserWhiteListed", isUserWhiteListed);
-
     //   check if contract whitelisted first
     if (isUserWhiteListed || isWhiteListOnHash) {
       value = whiteListPrice * quantity;
@@ -213,7 +208,6 @@ export default () => {
   }
 
   const Mint = async () => {
-    console.log("Minting");
     setLoading(true);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
@@ -234,9 +228,6 @@ export default () => {
       value = publicPrice * quantity;
       setPrice(publicPrice);
     }
-
-    // test
-    value = 1;
 
     let tx = await contract["mint(uint256)"](quantity, { value: ethers.utils.parseEther(value.toString()) })
       .then(tx => {
