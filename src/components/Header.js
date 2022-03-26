@@ -1,5 +1,5 @@
-import logo from "assets/logo.png";
 import brand from "assets/brand.png";
+import logo from "assets/logo.png";
 import metamaskIcon from "assets/metamask.png";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
@@ -9,9 +9,8 @@ import { setAddress } from "store/global";
 import { toggleNotification } from "store/notification";
 import styled from "styled-components";
 import { centerEllipsis } from "utils/helpers";
-import { ROUTES, SOCIALS, BASE} from "../constants";
-import {TEST_NET} from "../utils/contracts";
-import GradientBtn from "./GradientBtn";
+import { ROUTES } from "../constants";
+import { TEST_NET } from "../utils/contracts";
 import GradientMintBtn from "./GradientMintBtn";
 
 const Container = styled.div`
@@ -24,14 +23,23 @@ const Container = styled.div`
   backdrop-filter: blur(10px);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
   width: 100%;
-  top:0;
-  z-index: 100; 
+  top: 0;
+  z-index: 100;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
 `;
 
 const Right = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
 `;
 const Left = styled.div`
   display: flex;
@@ -98,6 +106,16 @@ const Brand = styled.img.attrs({ src: brand })`
   padding: 0px 0px 0px 2rem;
 `;
 
+const Options = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 1024px) {
+    padding-bottom: 1rem;
+  }
+`;
+
 export default () => {
   const dispatch = useDispatch();
   const [metamaskConnected, setMetamaskConnected] = useState(
@@ -110,9 +128,10 @@ export default () => {
   const navigate = useNavigate();
 
   const connectMetamask = async () => {
-    
     if (window.ethereum) {
-      const accounts = await window.ethereum.request({method: 'eth_accounts'});
+      const accounts = await window.ethereum.request({
+        method: "eth_accounts",
+      });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
 
@@ -126,22 +145,23 @@ export default () => {
 
         return;
       } else {
-        
-        if (localStorage.getItem("roseapeMetamaskConnected") && accounts.length == 0) {
+        if (
+          localStorage.getItem("roseapeMetamaskConnected") &&
+          accounts.length == 0
+        ) {
           setMetamaskConnected(false);
           localStorage.setItem("roseapeMetamaskConnected", false);
         }
 
-        await window.ethereum.request({ method: 'eth_requestAccounts' })
+        await window.ethereum
+          .request({ method: "eth_requestAccounts" })
           .then((accounts) => {
             if (accounts.length > 0) {
               dispatch(setAddress(accounts[0].toLowerCase()));
               setMetamaskConnected(true);
               localStorage.setItem("roseapeMetamaskConnected", true);
             }
-          }
-        );
-
+          });
       }
     } else {
       dispatch(
@@ -157,25 +177,28 @@ export default () => {
   const clearMetamaskConnection = async () => {
     setMetamaskConnected(false);
     localStorage.setItem("roseapeMetamaskConnected", false);
-  }
+  };
 
-  if(window.ethereum) {
-    window.ethereum.on('accountsChanged', function (accounts) {
+  if (window.ethereum) {
+    window.ethereum.on("accountsChanged", function (accounts) {
       dispatch(setAddress(accounts[0].toLowerCase()));
       setMetamaskConnected(true);
       localStorage.setItem("roseapeMetamaskConnected", true);
-    })
+    });
   }
 
   useEffect(async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const accounts = await provider.listAccounts();
 
-    if (localStorage.getItem("roseapeMetamaskConnected") && accounts.length == 0) {
+    if (
+      localStorage.getItem("roseapeMetamaskConnected") &&
+      accounts.length == 0
+    ) {
       setMetamaskConnected(false);
       localStorage.setItem("roseapeMetamaskConnected", false);
     }
-    
+
     if (localStorage.getItem("roseapeMetamaskConnected")) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const accounts = await provider.listAccounts();
@@ -183,26 +206,23 @@ export default () => {
     }
   }, []);
 
-
-
   return (
-    
     <Container>
       <Left>
-      <Brand/>
+        <Brand />
       </Left>
       <Right>
-      <Links>
-        {ROUTES.map(({ id, title, link }) => (
-          <Link
-            key={id}
-            onClick={() => navigate(link)}
-            className={pathname === link ? "active" : ""}
-          >
-            {title}
-          </Link>
-        ))}
-      </Links>
+        <Links>
+          {ROUTES.map(({ id, title, link }) => (
+            <Link
+              key={id}
+              onClick={() => navigate(link)}
+              className={pathname === link ? "active" : ""}
+            >
+              {title}
+            </Link>
+          ))}
+        </Links>
         {/* <Socials>
           {SOCIALS.map((e, i) => (
             <Social
@@ -217,22 +237,27 @@ export default () => {
             </Social>
           ))}
         </Socials> */}
-        { TEST_NET ? 
-        <GradientMintBtn
-          
-          stroked={true}
-          onClick={(event) => (window.open("https://faucet.testnet.oasis.dev/", "_blank"))}
-          label="Get Emerald Test Network Tokens"
-        />
-        : console.log("Main")
-        }
-        <GradientMintBtn
-          icon={metamaskIcon}
-          onClick={connectMetamask}
-          label={metamaskConnected ? centerEllipsis(address) : "Connect Wallet"}
-        />
+        <Options>
+          {TEST_NET ? (
+            <GradientMintBtn
+              stroked={true}
+              onClick={(event) =>
+                window.open("https://faucet.testnet.oasis.dev/", "_blank")
+              }
+              label="Get Emerald Test Network Tokens"
+            />
+          ) : (
+            console.log("Main")
+          )}
+          <GradientMintBtn
+            icon={metamaskIcon}
+            onClick={connectMetamask}
+            label={
+              metamaskConnected ? centerEllipsis(address) : "Connect Wallet"
+            }
+          />
+        </Options>
       </Right>
     </Container>
-    
   );
 };

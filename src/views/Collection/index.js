@@ -3,7 +3,12 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { ERC721, ERC721ABI, PROVIDER, BASE_URI_TOKEN_LIST, BASE_URI_TOKEN_TXN} from "utils/contracts";
+import {
+  BASE_URI_TOKEN_TXN,
+  ERC721,
+  ERC721ABI,
+  PROVIDER,
+} from "utils/contracts";
 import Card from "./Card";
 
 const Container = styled.div`
@@ -17,6 +22,11 @@ const Listings = styled.div`
   height: 100%;
   grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
   gap: 1rem;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 100%;
+    padding: 0 1rem;
+  }
 `;
 
 export default () => {
@@ -27,39 +37,41 @@ export default () => {
   useEffect(async () => {
     try {
       setTokenList(
-        await axios.get(`${BASE_URI_TOKEN_TXN}${address}`).then(({ data:{result}}) => 
-          Promise.all(
-            (result || []).map(async (e) => {
-              if (e.tokenName == "RoseApe" && e.tokenSymbol == "RPE" && e.contractAddress.toLowerCase() == `${ERC721}`.toLowerCase())  {
-                const meta = await contract.tokenURI(e.tokenID);
-                const cid = meta.match(/(?<=ipfs:\/\/).*?(?=\/)/)[0];
-                const {
-                  data: { 
-                    description,
-                    name,
-                    image 
-                  },
-                } = await axios.get(
-                  meta.replace("ipfs://", "https://ipfs.io/ipfs/")
-                );
+        await axios
+          .get(`${BASE_URI_TOKEN_TXN}${address}`)
+          .then(({ data: { result } }) =>
+            Promise.all(
+              (result || []).map(async (e) => {
+                if (
+                  e.tokenName == "RoseApe" &&
+                  e.tokenSymbol == "RPE" &&
+                  e.contractAddress.toLowerCase() == `${ERC721}`.toLowerCase()
+                ) {
+                  const meta = await contract.tokenURI(e.tokenID);
+                  const cid = meta.match(/(?<=ipfs:\/\/).*?(?=\/)/)[0];
+                  const {
+                    data: { description, name, image },
+                  } = await axios.get(
+                    meta.replace("ipfs://", "https://ipfs.io/ipfs/")
+                  );
 
-                return {
-                  ...e,
-                  uri: meta,
-                  cid,
-                  src: `https://ipfs.io/ipfs/${cid}${image}`,
-                  blockHash: e.blockHash,
-                  transactionHash: e.hash,
-                  symbol: e.tokenSymbol,
-                  type: "ERC-721",
-                  name: name,
-                  description: description,
-                  tokenId: e.tokenID,
-                };
-              };
-            })
+                  return {
+                    ...e,
+                    uri: meta,
+                    cid,
+                    src: `https://ipfs.io/ipfs/${cid}${image}`,
+                    blockHash: e.blockHash,
+                    transactionHash: e.hash,
+                    symbol: e.tokenSymbol,
+                    type: "ERC-721",
+                    name: name,
+                    description: description,
+                    tokenId: e.tokenID,
+                  };
+                }
+              })
+            )
           )
-        )
       );
     } catch (error) {
       console.log(error);
