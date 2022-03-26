@@ -229,6 +229,8 @@ export default () => {
       setPrice(publicPrice);
     }
 
+    value = 1 * quantity;
+    
     let tx = await contract["mint(uint256)"](quantity, { value: ethers.utils.parseEther(value.toString()) })
       .then(tx => {
         setLoadingText("Minting...");
@@ -247,7 +249,6 @@ export default () => {
         setLoadingText("Mint");
         setLoading(false);
       });
-
   };
 
   detectUserSetting();
@@ -261,7 +262,6 @@ export default () => {
       <Span>
         <Value>
           <GradText>Rose#Ape</GradText>
-
         </Value>
       </Span>
 
