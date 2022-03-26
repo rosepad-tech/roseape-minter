@@ -9,7 +9,7 @@ const Container = styled.div`
   right: 2rem;
   padding: 1rem;
   border-radius: 1rem;
-  z-index: 100;
+  z-index: 10000;
   background-color: #000000e6;
   backdrop-filter: blur(10px);
   min-width: 4rem;
