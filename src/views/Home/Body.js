@@ -134,8 +134,8 @@ export default () => {
   const [loadingText, setLoadingText] = useState("Mint");
   const [quantity, setQuantity] = useState(1);
   const [hash, setHash] = useState("");
-  const [price, setPrice] = useState(100);
-  const [totalPrice, setTotalPrice] = useState(100);
+  const [price, setPrice] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(1);
   const [textStatus, setTextStatus] = useState("");
 
   const whiteListPrice = 1;
