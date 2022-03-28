@@ -5,6 +5,7 @@ import GradientMintBtn from "../../components/GradientMintBtn";
 import { BASE_URI_TX } from "utils/contracts";
 import useSound from 'use-sound';
 import mintSound from 'assets/button-3.mp3';
+import hiddenRep from 'assets/hidden_rep.png';
 
 
 const Container = styled.div`
@@ -89,6 +90,7 @@ export default ({
   blockHash,
   hash
 }) => {
+  src = hiddenRep;
   return (
     <Container onClick={() => window.open(src, "_blank").focus()}>
       <Card>{src && <Image src={src} />}</Card>

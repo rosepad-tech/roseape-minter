@@ -59,7 +59,7 @@ export default () => {
                   e.tokenSymbol == "RPE" &&
                   e.contractAddress.toLowerCase() == `${ERC721}`.toLowerCase()
                 ) {
-                  console.log(">>>" + e.hash);
+                  
                   const meta = await contract.tokenURI(e.tokenID);
                   const cid = meta.match(/(?<=ipfs:\/\/).*?(?=\/)/)[0];
                   const {
@@ -67,7 +67,7 @@ export default () => {
                   } = await axios.get(
                     meta.replace("ipfs://", "https://ipfs.io/ipfs/")
                   );
-
+                  
                   return {
                     ...e,
                     uri: meta,
@@ -94,14 +94,7 @@ export default () => {
 
   return (
     <Container>
-      {tokenList.length === 0 ? 
-        <div>
-          <center>
-            <img src={loader} width="200" height="200" alt="loader" />
-            <Symbol>{loaderMessage}</Symbol>
-          </center>
-        </div>
-        :
+      {
         <Listings>
           {((tokenList.length && tokenList) || []).map(
             (e) => e && <Card key={e.contractAddress} {...e} />
