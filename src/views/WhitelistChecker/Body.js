@@ -237,7 +237,7 @@ export default () => {
       </LitContainer>
       
       <LitContainer>
-        <Small style={{width: '300px'}}>Manually address whitelist check</Small>
+        <Small style={{width: '300px'}}>Manual address whitelist check</Small>
         <Span>
           <input style={{width: '500px', fontSize: '20px'}} type="text" placeholder="Enter address" onChange={(e) => setAddressWlCheck(e.target.value)} />
         </Span>
