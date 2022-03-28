@@ -266,7 +266,6 @@ export default () => {
         <GradientMintBtn stroked={true} label={15} onClick={(value) => { setQuantityVsPrice(15); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn> */}
       </Options>
       <Options>
-      <Small>{tex?</Small>
         {loading ?
           <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"}></GradientMintBtn>
           :
