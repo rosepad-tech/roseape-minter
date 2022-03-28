@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-export const ERC721 = "0x52c448914dAa15f7cecF187519EDfBB118669e71";
+export const ERC721 = "0x784dbb7B1028507348A65dD14DE49223D09a73d0";
 export const ERC721ABI = [
 	{
 		"inputs": [
@@ -906,14 +906,11 @@ export const ERC721ABI = [
 	}
 ];
 
-export const PROVIDER = new ethers.providers.JsonRpcProvider('https://testnet.emerald.oasis.dev')
-export const BASE_URI_TOKEN_LIST = "https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address=";
-export const BASE_URI_TOKEN_TXN = "https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokentx&address=";
+export const PROVIDER = new ethers.providers.JsonRpcProvider('https://emerald.oasis.dev')
+export const BASE_URI_TOKEN_LIST = "https://explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address=";
+export const BASE_URI_TOKEN_TXN = "https://explorer.emerald.oasis.dev/api?module=account&action=tokentx&address=";
 
-export const BASE_URI_TX = "https://testnet.explorer.emerald.oasis.dev/tx/";
+export const BASE_URI_TX = "https://explorer.emerald.oasis.dev/tx/";
 export const BASE_URI_TX_TOKEN_TRANSFERS = "/token-transfers"
-export const TEST_NET = true;
-//https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokentx&address=0x4A7cf0919703CA8d392241B7917d524536bAb143
-   //"https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address=";
-    //https://testnet.explorer.emerald.oasis.dev/tx/0xd345c9c0e661fe72161e175b58233223e3070ebf696ea9e1387f8b423b9de53d/token-transfers
+export const TEST_NET = false;
     

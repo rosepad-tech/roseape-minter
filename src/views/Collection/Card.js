@@ -109,7 +109,6 @@ export default ({
           onClick={(event) => {window.open(src, "_blank")}}/>
           </Row>
         </Column>
-        
       </Details>
     </Container>
   );

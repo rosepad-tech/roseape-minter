@@ -147,7 +147,7 @@ export default () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
 
-      if (network.chainId !== 42261) {
+      if (network.chainId !== 42262) {
         dispatch(
           toggleNotification({
             message: "Wrong Network Detected.",
