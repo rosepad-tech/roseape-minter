@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router";
 import styled from "styled-components";
 import Collection from "views/Collection";
+import WhitelistChecker from "views/WhitelistChecker";
 import Home from "views/Home";
 
 const Container = styled.div`
@@ -19,6 +20,7 @@ export default () => {
       <Routes>
         <Route index element={<Home />} />
         <Route path="collection" element={<Collection />}></Route>
+        <Route path="whitelist-check" element={<WhitelistChecker />}></Route>
         <Route component={Home} />
       </Routes>
     </Container>
