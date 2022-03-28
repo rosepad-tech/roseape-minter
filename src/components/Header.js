@@ -124,16 +124,10 @@ const Options = styled.div`
 
 export default () => {
   const dispatch = useDispatch();
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-
   const [metamaskConnected, setMetamaskConnected] = useState(
     localStorage.getItem("roseapeMetamaskConnected")
   );
   const address = useSelector((state) => state.global.address);
-  let numberOfRpe =  0;
-  let isUserWhitelisted = false;
 
   const { pathname } = useLocation();
 
@@ -163,8 +157,6 @@ export default () => {
         ) {
           setMetamaskConnected(false);
           localStorage.setItem("roseapeMetamaskConnected", false);
-          localStorage.setItem("numberOfRpe",numberOfRpe);
-          localStorage.setItem("isUserWhitelisted",isUserWhitelisted);
 
         await window.ethereum
           .request({ method: "eth_requestAccounts" })
@@ -173,8 +165,6 @@ export default () => {
               dispatch(setAddress(accounts[0].toLowerCase()));
               setMetamaskConnected(true);
               localStorage.setItem("roseapeMetamaskConnected", true);
-              localStorage.setItem("numberOfRpe",numberOfRpe);
-              localStorage.setItem("isUserWhitelisted",isUserWhitelisted);
             }
           });
         }
@@ -193,8 +183,6 @@ export default () => {
   const clearMetamaskConnection = async () => {
     setMetamaskConnected(false);
     localStorage.setItem("roseapeMetamaskConnected", false);
-    localStorage.setItem("numberOfRpe",0);
-    localStorage.setItem("isUserWhitelisted",false);
   };
 
   if (window.ethereum) {
@@ -202,8 +190,6 @@ export default () => {
       dispatch(setAddress(accounts[0].toLowerCase()));
       setMetamaskConnected(true);
       localStorage.setItem("roseapeMetamaskConnected", true);
-      localStorage.setItem("numberOfRpe",numberOfRpe);
-      localStorage.setItem("isUserWhitelisted",isUserWhitelisted);
     });
   }
 
@@ -217,16 +203,12 @@ export default () => {
     ) {
       setMetamaskConnected(false);
       localStorage.setItem("roseapeMetamaskConnected", false);
-      localStorage.setItem("numberOfRpe",0);
-      localStorage.setItem("isUserWhitelisted",false);
     }
 
     if (localStorage.getItem("roseapeMetamaskConnected")) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const accounts = await provider.listAccounts();
       dispatch(setAddress(accounts[0].toLowerCase()));
-      numberOfRpe =  await contract.getNumberOfTokens(address);
-      isUserWhitelisted = await contract.isUserWhitelisted(address);
     }
   }, []);
 
