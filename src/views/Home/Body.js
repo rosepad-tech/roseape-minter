@@ -144,23 +144,24 @@ export default () => {
   let publicOwnerLimit = 15;
   let wlParticipantMessage = "";
   let value = 0;
-  
+
 
   useEffect(async () => {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-      const address = await signer.getAddress();
-      
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
+
+    try {
+      const address = await signer.getAddress()
       const numberOfRpe = await contract.getNumberOfTokens(address);
       const isUserWhitelisted = await contract.isUserWhitelisted(address);
 
-      if(isUserWhitelisted){
+      if (isUserWhitelisted) {
         wlParticipantMessage = "You are whitelisted";
         whitelistOwnerLimit = await contract._whitelistOwnershipLimit();
         setTotalPrice(whiteListPrice * quantity);
 
-        if((quantity + numberOfRpe) > whitelistOwnerLimit){
+        if ((quantity + numberOfRpe) > whitelistOwnerLimit) {
           setTextStatus("You can only mint up to " + value + " more RPE");
         }
 
@@ -169,7 +170,10 @@ export default () => {
         publicOwnerLimit = await contract._publicOwnershipLimit();
         setTotalPrice(publicPrice * quantity);
       }
-      
+    } catch (error) {
+      console.log(error);
+    }
+
   }, []);
 
 
@@ -253,7 +257,7 @@ export default () => {
         </Span>
       </LitContainer>
       <Small>How Many?</Small>
-      <Span>{textStatus}</Span> 
+      <Span>{textStatus}</Span>
       <Options>
         <GradientMintBtn stroked={true} label={1} onClick={(value) => { setQuantityVsPrice(1); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
         <GradientMintBtn stroked={true} label={2} onClick={(value) => { setQuantityVsPrice(2); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
