@@ -12,12 +12,6 @@ import { centerEllipsis } from "utils/helpers";
 import { ROUTES } from "../constants";
 import { TEST_NET } from "../utils/contracts";
 import GradientMintBtn from "./GradientMintBtn";
-import {
-  BASE_URI_TOKEN_TXN,
-  ERC721,
-  ERC721ABI,
-  PROVIDER,
-} from "utils/contracts";
 
 const Container = styled.div`
   display: flex;
@@ -157,6 +151,7 @@ export default () => {
         ) {
           setMetamaskConnected(false);
           localStorage.setItem("roseapeMetamaskConnected", false);
+        }
 
         await window.ethereum
           .request({ method: "eth_requestAccounts" })
@@ -167,7 +162,6 @@ export default () => {
               localStorage.setItem("roseapeMetamaskConnected", true);
             }
           });
-        }
       }
     } else {
       dispatch(
@@ -186,7 +180,7 @@ export default () => {
   };
 
   if (window.ethereum) {
-      window.ethereum.on("accountsChanged", function (accounts) {
+    window.ethereum.on("accountsChanged", function (accounts) {
       dispatch(setAddress(accounts[0].toLowerCase()));
       setMetamaskConnected(true);
       localStorage.setItem("roseapeMetamaskConnected", true);
