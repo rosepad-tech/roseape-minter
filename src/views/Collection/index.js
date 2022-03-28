@@ -55,7 +55,7 @@ export default () => {
               (result || []).map(async (e) => {
                 setLoaderMessage("Loading RoseApe Tokens");
                 if (
-                  e.tokenName == "RoseApeT1" &&
+                  e.tokenName == "RoseApe" &&
                   e.tokenSymbol == "RPE" &&
                   e.contractAddress.toLowerCase() == `${ERC721}`.toLowerCase()
                 ) {

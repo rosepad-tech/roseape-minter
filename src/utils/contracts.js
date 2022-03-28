@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-export const ERC721 = "0x784dbb7B1028507348A65dD14DE49223D09a73d0";
+export const ERC721 = "0xFB7756fd653d210AC730d945B8B3C16F22484409";
 export const ERC721ABI = [
 	{
 		"inputs": [
