@@ -34,5 +34,8 @@ export const ROUTES = [
   {
     title: "collection",
     id: "collection",
+  },{
+    title: "whitelist check",
+    id: "whitelist-check",
   }
 ].map((e, i) => ({ ...e, link: `/${i === 0 ? "" : e.id}` }));
