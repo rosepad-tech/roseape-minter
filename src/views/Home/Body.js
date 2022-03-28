@@ -138,8 +138,8 @@ export default () => {
   const [totalPrice, setTotalPrice] = useState(100);
   const [textStatus, setTextStatus] = useState("");
 
-  const whiteListPrice = 100;
-  const publicPrice = 150;
+  const whiteListPrice = 1;
+  const publicPrice = 1;
   let whitelistOwnerLimit = 3;
   let publicOwnerLimit = 15;
   let wlParticipantMessage = "";
