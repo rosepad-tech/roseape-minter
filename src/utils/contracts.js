@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-export const ERC721 = "0x1d681208d901BBd296DfDfb6BA4861B98858e903";
+export const ERC721 = "0x52c448914dAa15f7cecF187519EDfBB118669e71";
 export const ERC721ABI = [
 	{
 		"inputs": [
@@ -121,11 +121,11 @@ export const ERC721ABI = [
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "publicAllAtOnce_",
+				"name": "publicOwnershipLimit_",
 				"type": "uint256"
 			}
 		],
-		"name": "changePublicAllAtOnce",
+		"name": "changePublicOwnershipLimit",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -172,12 +172,12 @@ export const ERC721ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "publicAllAtOnce_",
-				"type": "uint256"
+				"internalType": "bool",
+				"name": "_whitelistMode",
+				"type": "bool"
 			}
 		],
-		"name": "changeWhiteListAllAtOnce",
+		"name": "changeWhitelistMode",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -186,11 +186,24 @@ export const ERC721ABI = [
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "whiteListSalePrice_",
+				"name": "whitelistOwnershipLimit_",
 				"type": "uint256"
 			}
 		],
-		"name": "changeWhiteListSalePrice",
+		"name": "changeWhitelistOwnershipLimit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "whitelistSalePrice_",
+				"type": "uint256"
+			}
+		],
+		"name": "changeWhitelistSalePrice",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -248,7 +261,7 @@ export const ERC721ABI = [
 				"type": "address"
 			}
 		],
-		"name": "removeWhitelistUser",
+		"name": "removeWhiteListUser",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -376,12 +389,12 @@ export const ERC721ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "_whiteListHash",
-				"type": "string"
+				"internalType": "address[]",
+				"name": "_users",
+				"type": "address[]"
 			}
 		],
-		"name": "setWhiteListHash",
+		"name": "setWhitelist",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -482,7 +495,7 @@ export const ERC721ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "_publicMaxAllAtOnce",
+		"name": "_publicOwnershipLimit",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -521,7 +534,7 @@ export const ERC721ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "_whiteListMaxAllAtOnce",
+		"name": "_whitelistOwnershipLimit",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -534,7 +547,7 @@ export const ERC721ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "_whiteListSalePrice",
+		"name": "_whitelistSalePrice",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -610,13 +623,19 @@ export const ERC721ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getWhiteListHash",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "getNumberOfTokens",
 		"outputs": [
 			{
-				"internalType": "string",
+				"internalType": "uint256",
 				"name": "",
-				"type": "string"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -654,7 +673,7 @@ export const ERC721ABI = [
 				"type": "address"
 			}
 		],
-		"name": "isUserWhiteListed",
+		"name": "isUserWhitelisted",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -835,9 +854,33 @@ export const ERC721ABI = [
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
-		"name": "whiteListed",
+		"name": "userOwnedTokens",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "whitelisted",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -850,12 +893,12 @@ export const ERC721ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "whiteListHash",
+		"name": "whitelistMode",
 		"outputs": [
 			{
-				"internalType": "string",
+				"internalType": "bool",
 				"name": "",
-				"type": "string"
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",

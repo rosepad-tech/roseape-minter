@@ -6,6 +6,7 @@ import { BASE_URI_TX } from "utils/contracts";
 import useSound from 'use-sound';
 import mintSound from 'assets/button-3.mp3';
 
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -88,15 +89,7 @@ export default ({
   blockHash,
   hash
 }) => {
-
-  const [playActive] = useSound(
-    mintSound,
-    { volume: 0.25 }
-  );
-  
   return (
-    //"https://testnet.explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address=";
-    //https://testnet.explorer.emerald.oasis.dev/tx/0xd345c9c0e661fe72161e175b58233223e3070ebf696ea9e1387f8b423b9de53d/token-transfers
     <Container onClick={() => window.open(src, "_blank").focus()}>
       <Card>{src && <Image src={src} />}</Card>
       <Details>
