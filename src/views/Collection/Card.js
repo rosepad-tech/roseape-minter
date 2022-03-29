@@ -90,7 +90,7 @@ export default ({
   blockHash,
   hash
 }) => {
-  src = hiddenRep;
+  //src = hiddenRep;
   return (
     <Container onClick={() => window.open(src, "_blank").focus()}>
       <Card>{src && <Image src={src} />}</Card>
