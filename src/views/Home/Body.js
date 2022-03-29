@@ -283,11 +283,13 @@ export default () => {
       <Small>Ready?</Small>
 
       <Options>
+        <GradientMintBtn stroked={true} label={"Minting Soon!"}></GradientMintBtn>
+{/*         
         {loading ?
           <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"}></GradientMintBtn>
           :
           <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"} onClick={Mint}></GradientMintBtn>
-        }
+        } */}
       </Options>
 
       <Options>
