@@ -1,4 +1,5 @@
 import axios from "axios";
+import whitelist from "utils/whitelist";
 
 export const centerEllipsis = (str, frontLen = 2, rearLen = 8) =>
   str && typeof str === "string"
@@ -31,5 +32,16 @@ export const checkWhiteList = async (address) => {
       return false;
     });
 
-    return result;
+  return result;
+}
+
+export const checkWhitelistManual = async (address) => {
+  let result = false;
+  for (let i = 0; i < whitelist.length; i++) {
+    if (whitelist[i].toLowerCase() === address.toLowerCase()) {
+      console.log("User is whitelisted");
+      result = true;
+    }
+  }
+  return result;
 }

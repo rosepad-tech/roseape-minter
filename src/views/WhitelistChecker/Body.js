@@ -12,7 +12,7 @@ import useSound from 'use-sound';
 import mintSound from 'assets/button-3.mp3';
 import { QuantityPicker } from 'react-qty-picker';
 import axios from "axios";
-import { checkWhiteList } from "utils/helpers";
+import { checkWhiteList,checkWhitelistManual } from "utils/helpers";
 
 
 import 'assets/spinner/index.css'
@@ -210,9 +210,9 @@ export default () => {
     const signer = provider.getSigner();
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
     try {
-      const isUserWhitelisted = await contract.isUserWhitelisted(addressWlCheck);
+      //const isUserWhitelisted = await contract.isUserWhitelisted(addressWlCheck);
       const isUserWhitelistedFromIpfs = await checkWhiteList(addressWlCheck);
-      if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
+      if (isUserWhitelistedFromIpfs) {
         setTextStatus("Address is whitelisted!");
       } else {
         setTextStatus("Address is not whitelisted!");
