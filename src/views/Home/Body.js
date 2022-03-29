@@ -157,16 +157,11 @@ export default () => {
       const numberOfRpe = await contract.getNumberOfTokens(address);
       const isUserWhitelisted = await contract.isUserWhitelisted(address);
       const isUserWhitelistedFromIpfs = await checkWhiteList(address);
-    
+
       if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
         wlParticipantMessage = "You are whitelisted";
         whitelistOwnerLimit = await contract._whitelistOwnershipLimit();
         setTotalPrice(whiteListPrice * quantity);
-
-        if ((quantity + numberOfRpe) > whitelistOwnerLimit) {
-          setTextStatus("You can only mint up to " + value + " more RPE");
-        }
-
       } else {
         setPrice(publicPrice);
         publicOwnerLimit = await contract._publicOwnershipLimit();
@@ -180,16 +175,28 @@ export default () => {
 
 
   const setQuantityVsPrice = async (quantity) => {
-    if (localStorage.getItem("isUserWhitelisted") === "true") {
-      value = whiteListPrice * quantity;
-      setPrice(whiteListPrice);
-    } else {
-      value = publicPrice * quantity;
-      setPrice(publicPrice);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
+
+    try {
+      const address = await signer.getAddress()
+      const numberOfRpe = await contract.getNumberOfTokens(address);
+      const isUserWhitelisted = await contract.isUserWhitelisted(address);
+      const isUserWhitelistedFromIpfs = await checkWhiteList(address);
+      if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
+        value = whiteListPrice * quantity;
+        setPrice(whiteListPrice);
+      } else {
+        value = publicPrice * quantity;
+        setPrice(publicPrice);
+      }
+      setTotalPrice(value);
+      setQuantity(quantity);
+    }catch(error){
+      console.log(error);
     }
-    setTotalPrice(value);
-    setQuantity(quantity);
-  }
+}
 
   const timeout = async (delay) => {
     return new Promise(res => setTimeout(res, delay));
