@@ -234,7 +234,7 @@ export default () => {
         </Value>
       </Span>
       <LitContainer>
-        <Small>{isUserWhitelisted ? "Your current Metamask address is whitelisted" : "Your current Metamask address is not whitelisted"}</Small>
+        <Small>{isUserWhitelisted ? <Span style={{color: '#90EE90', fontSize: '20px'}}>Your current Metamask address is whitelisted</Span> : <Span style={{fontSize: '20px'}}>Your current Metamask address is not whitelisted</Span>}</Small>
       </LitContainer>
 
       <LitContainer>
