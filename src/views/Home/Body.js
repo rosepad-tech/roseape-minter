@@ -261,7 +261,7 @@ export default () => {
       <Container>
         <Span>
           <Value>
-            <GradText>Whitelist Event is on-going! Connect your whitelisted wallet to participate!</GradText>
+            <GradText>Whitelist sale is on-going! Connect your whitelisted wallet to participate!</GradText>
           </Value>
         </Span>
       </Container>
