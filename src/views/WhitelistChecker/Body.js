@@ -236,15 +236,18 @@ export default () => {
       <LitContainer>
         <Small>{isUserWhitelisted ? <Span style={{color: '#90EE90', fontSize: '20px'}}>Your current Metamask address is whitelisted</Span> : <Span style={{fontSize: '20px'}}>Your current Metamask address is not whitelisted</Span>}</Small>
       </LitContainer>
-
+      <br/>
       <LitContainer>
         <Small style={{ width: '300px' }}>Manual address whitelist check</Small>
+        <Small style={{ fontSize: '12px' }}>Check a specific wallet address if its whitelisted.</Small>
         <Span>
           <input style={{ width: '500px', fontSize: '20px' }} type="text" placeholder="Enter address" onChange={(e) => setAddressWlCheck(e.target.value)} />
         </Span>
+        <br/>
         <Span>
           <Small>{textStatus}</Small>
         </Span>
+        <br/>
         <GradientMintBtn stroked={true} label={'Check'} onClick={CheckWl}>{textStatus}</GradientMintBtn>
       </LitContainer>
       <Options>
