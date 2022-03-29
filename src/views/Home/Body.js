@@ -138,7 +138,7 @@ export default () => {
   const [price, setPrice] = useState(100);
   const [totalPrice, setTotalPrice] = useState(100);
   const [textStatus, setTextStatus] = useState("");
-
+  const [whitelistEventOnly, setWhitelistEventOnly] = useState(false);
   const whiteListPrice = 100;
   const publicPrice = 150;
   let whitelistOwnerLimit = 3;
@@ -162,6 +162,7 @@ export default () => {
         wlParticipantMessage = "You are whitelisted";
         whitelistOwnerLimit = await contract._whitelistOwnershipLimit();
         setTotalPrice(whiteListPrice * quantity);
+        setWhitelistEventOnly(true);
       } else {
         setPrice(publicPrice);
         publicOwnerLimit = await contract._publicOwnershipLimit();
@@ -205,15 +206,20 @@ export default () => {
   const Mint = async () => {
 
     setLoading(true);
-    if (localStorage.getItem("isUserWhitelisted") === "true") {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
+    const address = await signer.getAddress();
+    const isUserWhitelisted = await contract.isUserWhitelisted(address);
+    const isUserWhitelistedFromIpfs = await checkWhiteList(address);
+   
+    if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
       value = whiteListPrice * quantity;
 
     } else {
       value = publicPrice * quantity;
     }
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
+
     let tx = await contract["mint(uint256)"](quantity, { value: ethers.utils.parseEther(value.toString()) })
       .then(tx => {
         setLoadingText("Minting...");
