@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-export const ERC721 = "0xFB7756fd653d210AC730d945B8B3C16F22484409";
+export const ERC721 = "0xd2695fb818d91aB0df69B1C3861A671085262ae3";
 export const ERC721ABI = [
 	{
 		"inputs": [
@@ -165,6 +165,19 @@ export const ERC721ABI = [
 			}
 		],
 		"name": "changeRoyalty",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "_whitelistCheck",
+				"type": "bool"
+			}
+		],
+		"name": "changeWhitelistCheck",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -861,12 +874,49 @@ export const ERC721ABI = [
 				"type": "uint256"
 			}
 		],
-		"name": "userOwnedTokens",
+		"name": "userOwnedTokensPublic",
 		"outputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "userOwnedTokensWhitelist",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "whitelistCheck",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",

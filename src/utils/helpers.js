@@ -19,7 +19,7 @@ export const bin2String = (hexx) => {
 
 export const checkWhiteList = async (address) => {
   let result = false;
-  await axios.get(`https://bafkreibiuddx4mb4z65zyx5sqk5minlbxhfndlwb6kskvgffjgkxxj5c4y.ipfs.dweb.link`)
+  await axios.get(`https://bafkreibiuddx4mb4z65zyx5sqk5minlbxhfndlwb6kskvgffjgkxj5c4y.ipfs.dweb.link`)
     .then((response) => {
       for (let i = 0; i < response.data.data.length; i++) {
         if (response.data.data[i].toLowerCase() === address.toLowerCase()) {
