@@ -194,10 +194,10 @@ export default () => {
       }
       setTotalPrice(value);
       setQuantity(quantity);
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
-}
+  }
 
   const timeout = async (delay) => {
     return new Promise(res => setTimeout(res, delay));
@@ -212,7 +212,7 @@ export default () => {
     const address = await signer.getAddress();
     const isUserWhitelisted = await contract.isUserWhitelisted(address);
     const isUserWhitelistedFromIpfs = await checkWhiteList(address);
-   
+
     if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
       value = whiteListPrice * quantity;
 
@@ -239,77 +239,102 @@ export default () => {
         setLoading(false);
       });
   };
-  return (
-    <Container>
 
-      <Head>
-        <Title>RoseApes721</Title>
-        <Sub>{wlParticipantMessage}</Sub>
-        <Sub>Mint your RoseApe now!</Sub>
-      </Head>
-      <Span>
-        <Value>
-          <GradText>Rose#Ape</GradText>
-        </Value>
-      </Span>
+  if (true) {
+    return (
+      <Container>
+        <Head>
+          <Title>RoseApes721</Title>
+        </Head>
+        <Span>
+          <Value>
+            <Sub>Minting day is coming!</Sub>
+          <GradText>03/30/2022 - 1PM UTC</GradText>
+          </Value>
+        </Span>
+      </Container>
+    )
+  }
 
-      <LitContainer>
-        <Span style={{ gap: "0.125rem" }}>
-          <Label style={{ margin: "0" }}>Price / RoseApe NFT</Label>
-          {/* <Label>Get your very own RoseApes</Label> */}
-          <Div>
-            <Price>{price}</Price>
-            <Small>ROSE / NFT</Small>
-          </Div>
+  if (!whitelistEventOnly) {
+    return (
+      <Container>
+        <Span>
+          <Value>
+            <GradText>Whitelist Event is on-going! Connect your whitelisted wallet to participate!</GradText>
+          </Value>
         </Span>
-        <Span style={{ gap: "0.125rem", paddingTop: '10px' }}>
-          <Label style={{ margin: "0" }}>Total Price</Label>
-          {/* <Label>Get your very own RoseApes</Label> */}
-          <Div>
-            <Price>{totalPrice}</Price>
-            <Small>Total </Small>
-          </Div>
+      </Container>
+    )
+  } else {
+    return (
+      <Container>
+
+        <Head>
+          <Title>RoseApes721</Title>
+          <Sub>{wlParticipantMessage}</Sub>
+          <Sub>Mint your RoseApe now!</Sub>
+        </Head>
+        <Span>
+          <Value>
+            <GradText>Rose#Ape</GradText>
+          </Value>
         </Span>
-      </LitContainer>
-      <Small>How Many? (Please note we only allow max of 3 RoseApe per account for the WL sale)</Small>
-      <Span>{textStatus}</Span>
-      <Options>
-        <GradientMintBtn stroked={true} label={1} onClick={(value) => { setQuantityVsPrice(1); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-        <GradientMintBtn stroked={true} label={2} onClick={(value) => { setQuantityVsPrice(2); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-        <GradientMintBtn stroked={true} label={3} onClick={(value) => { setQuantityVsPrice(3); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-        {/* <GradientMintBtn stroked={true} label={5} onClick={(value) => { setQuantityVsPrice(5); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
+
+        <LitContainer>
+          <Span style={{ gap: "0.125rem" }}>
+            <Label style={{ margin: "0" }}>Price / RoseApe NFT</Label>
+            <Div>
+              <Price>{price}</Price>
+              <Small>ROSE / NFT</Small>
+            </Div>
+          </Span>
+          <Span style={{ gap: "0.125rem", paddingTop: '10px' }}>
+            <Label style={{ margin: "0" }}>Total Price</Label>
+            <Div>
+              <Price>{totalPrice}</Price>
+              <Small>Total </Small>
+            </Div>
+          </Span>
+        </LitContainer>
+        {/* <Small>How Many? (Please note we only allow max of 3 RoseApe per account for the WL sale)</Small> */}
+        <Span>{textStatus}</Span>
+        <Options>
+          <GradientMintBtn stroked={true} label={1} onClick={(value) => { setQuantityVsPrice(1); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
+          <GradientMintBtn stroked={true} label={2} onClick={(value) => { setQuantityVsPrice(2); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
+          <GradientMintBtn stroked={true} label={3} onClick={(value) => { setQuantityVsPrice(3); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
+          {/* <GradientMintBtn stroked={true} label={5} onClick={(value) => { setQuantityVsPrice(5); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
         <GradientMintBtn stroked={true} label={15} onClick={(value) => { setQuantityVsPrice(15); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn> */}
-      </Options>
-      <Small>Ready?</Small>
+        </Options>
+        <Small>Ready?</Small>
 
-      <Options>
-        <GradientMintBtn stroked={true} label={"Minting Soon!"}></GradientMintBtn>
-{/*         
-        {loading ?
-          <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"}></GradientMintBtn>
-          :
-          <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"} onClick={Mint}></GradientMintBtn>
-        } */}
-      </Options>
+        <Options>
+          {loading ?
+            <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"}></GradientMintBtn>
+            :
+            <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"} onClick={Mint}></GradientMintBtn>
+          }
+        </Options>
 
-      <Options>
-        {showHash ?
-          <GradientBtn
-            label="View your NFT Transaction"
-            stroked={true}
-            onClick={(event) => (window.open(BASE_URI_TX + hash, "_blank"))}
-          />
-          : null}
-      </Options>
+        <Options>
+          {showHash ?
+            <GradientBtn
+              label="View your NFT Transaction"
+              stroked={true}
+              onClick={(event) => (window.open(BASE_URI_TX + hash, "_blank"))}
+            />
+            : null}
+        </Options>
 
-      <Div>{textStatus}</Div>
-      <Div>
-        {/* <Diamond /> */}
-        {/* <Span>
+        <Div>{textStatus}</Div>
+        <Div>
+          {/* <Diamond /> */}
+          {/* <Span>
           <Label>Rarity Score</Label>
           <Score>123.3</Score>
         </Span> */}
-      </Div>
-    </Container>
-  );
+        </Div>
+      </Container>
+    );
+  }
 };
