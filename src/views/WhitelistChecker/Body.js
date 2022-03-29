@@ -12,6 +12,7 @@ import useSound from 'use-sound';
 import mintSound from 'assets/button-3.mp3';
 import { QuantityPicker } from 'react-qty-picker';
 import axios from "axios";
+import { checkWhiteList } from "utils/helpers";
 
 
 import 'assets/spinner/index.css'
@@ -127,9 +128,6 @@ const GradText = styled.span`
   -webkit-text-fill-color: transparent;
 `;
 
-
-
-
 export default () => {
 
   const [loading, setLoading] = useState(false);
@@ -151,17 +149,21 @@ export default () => {
   let value = 0;
 
 
+  // whitelist hash: https://bafkreici3cy7vcqjxqo7zxeach3tfgda2nahwx27wwpsce4gpjdniijffu.ipfs.dweb.link/
+
   useEffect(async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
 
+
     try {
       const address = await signer.getAddress()
       const numberOfRpe = await contract.getNumberOfTokens(address);
       const isUserWhitelisted = await contract.isUserWhitelisted(address);
+      const isUserWhitelistedFromIpfs = await checkWhiteList(address);
 
-      if (isUserWhitelisted) {
+      if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
         wlParticipantMessage = "You are whitelisted";
         whitelistOwnerLimit = await contract._whitelistOwnershipLimit();
         setTotalPrice(whiteListPrice * quantity);
@@ -207,19 +209,18 @@ export default () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-    console.log(addressWlCheck);
-    const isUserWhitelisted = await contract.isUserWhitelisted(addressWlCheck)
-      .then(async (isUserWhitelisted) => {
-        if (isUserWhitelisted) {
-          setTextStatus("Address is whitelisted!");
-        } else {
-          setTextStatus("Address is not whitelisted!");
-        }
-      }).catch((error) => {
+    try {
+      const isUserWhitelisted = await contract.isUserWhitelisted(addressWlCheck);
+      const isUserWhitelistedFromIpfs = await checkWhiteList(addressWlCheck);
+      if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
+        setTextStatus("Address is whitelisted!");
+      } else {
         setTextStatus("Address is not whitelisted!");
-        console.log(error);
-      });
-
+      }
+    } catch (error) {
+      setTextStatus("Address is not whitelisted!");
+      console.log(error);
+    }
   };
   return (
     <Container>
@@ -233,16 +234,16 @@ export default () => {
         </Value>
       </Span>
       <LitContainer>
-        <Price>{isUserWhitelisted ? "Your current Metamask address is whitelisted" : "Your current Metamask address is not whitelisted"}</Price>
+        <Small>{isUserWhitelisted ? "Your current Metamask address is whitelisted" : "Your current Metamask address is not whitelisted"}</Small>
       </LitContainer>
-      
+
       <LitContainer>
-        <Small style={{width: '300px'}}>Manual address whitelist check</Small>
+        <Small style={{ width: '300px' }}>Manual address whitelist check</Small>
         <Span>
-          <input style={{width: '500px', fontSize: '20px'}} type="text" placeholder="Enter address" onChange={(e) => setAddressWlCheck(e.target.value)} />
+          <input style={{ width: '500px', fontSize: '20px' }} type="text" placeholder="Enter address" onChange={(e) => setAddressWlCheck(e.target.value)} />
         </Span>
         <Span>
-          <Price>{textStatus}</Price>
+          <Small>{textStatus}</Small>
         </Span>
         <GradientMintBtn stroked={true} label={'Check'} onClick={CheckWl}>{textStatus}</GradientMintBtn>
       </LitContainer>
