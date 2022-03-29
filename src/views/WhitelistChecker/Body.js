@@ -12,7 +12,7 @@ import useSound from 'use-sound';
 import mintSound from 'assets/button-3.mp3';
 import { QuantityPicker } from 'react-qty-picker';
 import axios from "axios";
-
+import { checkWhiteList } from "utils/helpers";
 
 import 'assets/spinner/index.css'
 
@@ -207,63 +207,63 @@ export default () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-    console.log(addressWlCheck);
-    const isUserWhitelisted = await contract.isUserWhitelisted(addressWlCheck)
-      .then(async (isUserWhitelisted) => {
-        if (isUserWhitelisted) {
-          setTextStatus("Address is whitelisted!");
-        } else {
-          setTextStatus("Address is not whitelisted!");
-        }
-      }).catch((error) => {
+    try {
+      const isUserWhitelisted = await contract.isUserWhitelisted(addressWlCheck);
+      const isUserWhitelistedFromIpfs = await checkWhiteList(addressWlCheck);
+      if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
+        setTextStatus("Address is whitelisted!");
+      } else {
         setTextStatus("Address is not whitelisted!");
-        console.log(error);
-      });
-
+      }
+    } catch (error) {
+      setTextStatus("Address is not whitelisted!");
+      console.log(error);
+    }
   };
-  return (
-    <Container>
 
-      <Head>
-        <Title>RoseApes721 WL Checker</Title>
-      </Head>
+return (
+  <Container>
+
+    <Head>
+      <Title>RoseApes721 WL Checker</Title>
+    </Head>
+    <Span>
+      <Value>
+        <GradText>Rose#Ape</GradText>
+      </Value>
+    </Span>
+    <LitContainer>
+      <Small>{isUserWhitelisted ? "Your current Metamask address is whitelisted" : "Your current Metamask address is not whitelisted"}</Small>
+    </LitContainer>
+
+    <LitContainer>
+      <Small style={{ width: '300px' }}>Manually address whitelist check</Small>
       <Span>
-        <Value>
-          <GradText>Rose#Ape</GradText>
-        </Value>
+        <input style={{ width: '500px', fontSize: '20px' }} type="text" placeholder="Enter address" onChange={(e) => setAddressWlCheck(e.target.value)} />
       </Span>
-      <LitContainer>
-        <Price>{isUserWhitelisted ? "Your current Metamask address is whitelisted" : "Your current Metamask address is not whitelisted"}</Price>
-      </LitContainer>
-      
-      <LitContainer>
-        <Small style={{width: '300px'}}>Manually address whitelist check</Small>
-        <Span>
-          <input style={{width: '500px', fontSize: '20px'}} type="text" placeholder="Enter address" onChange={(e) => setAddressWlCheck(e.target.value)} />
-        </Span>
-        <Span>
-          <Price>{textStatus}</Price>
-        </Span>
-        <GradientMintBtn stroked={true} label={'Check'} onClick={CheckWl}>{textStatus}</GradientMintBtn>
-      </LitContainer>
-      <Options>
-        {showHash ?
-          <GradientBtn
-            label="View your NFT Transaction"
-            stroked={true}
-            onClick={(event) => (window.open(BASE_URI_TX + hash, "_blank"))}
-          />
-          : null}
-      </Options>
+      <Span>
+        <Small>{textStatus}</Small>
+      </Span>
+      <GradientMintBtn stroked={true} label={'Check'} onClick={CheckWl}>{textStatus}</GradientMintBtn>
+    </LitContainer>
+    <Options>
+      {showHash ?
+        <GradientBtn
+          label="View your NFT Transaction"
+          stroked={true}
+          onClick={(event) => (window.open(BASE_URI_TX + hash, "_blank"))}
+        />
+        : null}
+    </Options>
 
 
-      <Div>
-        {/* <Diamond /> */}
-        {/* <Span>
+    <Div>
+      {/* <Diamond /> */}
+      {/* <Span>
           <Label>Rarity Score</Label>
           <Score>123.3</Score>
         </Span> */}
-      </Div>
-    </Container>
-  );
+    </Div>
+  </Container>
+);
 };

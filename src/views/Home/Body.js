@@ -12,6 +12,7 @@ import useSound from 'use-sound';
 import mintSound from 'assets/button-3.mp3';
 import { QuantityPicker } from 'react-qty-picker';
 import axios from "axios";
+import { checkWhiteList } from "utils/helpers";
 
 
 import 'assets/spinner/index.css'
@@ -155,8 +156,9 @@ export default () => {
       const address = await signer.getAddress()
       const numberOfRpe = await contract.getNumberOfTokens(address);
       const isUserWhitelisted = await contract.isUserWhitelisted(address);
-
-      if (isUserWhitelisted) {
+      const isUserWhitelistedFromIpfs = await checkWhiteList(address);
+    
+      if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
         wlParticipantMessage = "You are whitelisted";
         whitelistOwnerLimit = await contract._whitelistOwnershipLimit();
         setTotalPrice(whiteListPrice * quantity);
