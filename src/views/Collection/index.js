@@ -42,7 +42,6 @@ export default () => {
   const address = useSelector((state) => state.global.address);
   const [loader, setLoader] = useState(loaderGif);
   const [loaderMessage, setLoaderMessage] = useState('');
-  console.log(address);
   useEffect(async () => {
     
     try {

@@ -140,7 +140,7 @@ export default () => {
   const [textStatus, setTextStatus] = useState("");
   const [whitelistEventOnly, setWhitelistEventOnly] = useState(false);
   const whiteListPrice = 100;
-  const publicPrice = 150;
+  const publicPrice = 100; // hide for now. set to 150 later.
   let whitelistOwnerLimit = 3;
   let publicOwnerLimit = 15;
   let wlParticipantMessage = "";
@@ -240,7 +240,7 @@ export default () => {
       });
   };
 
-  if (true) {
+  if (false) {
     return (
       <Container>
         <Head>
