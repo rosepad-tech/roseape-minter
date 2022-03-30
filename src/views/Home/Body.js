@@ -185,6 +185,7 @@ export default () => {
       const numberOfRpe = await contract.getNumberOfTokens(address);
       const isUserWhitelisted = await contract.isUserWhitelisted(address);
       const isUserWhitelistedFromIpfs = await checkWhiteList(address);
+
       if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
         value = whiteListPrice * quantity;
         setPrice(whiteListPrice);
@@ -262,6 +263,8 @@ export default () => {
         <Span>
           <Value>
             <GradText>Whitelist sale is on-going! Connect your whitelisted wallet to participate!</GradText>
+
+            <Small>*Refresh page after connecting your whitelisted wallet!</Small>
           </Value>
         </Span>
       </Container>
