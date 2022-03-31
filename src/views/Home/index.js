@@ -67,6 +67,19 @@ const CaretBtn = styled.button`
   }
 `;
 
+const Title = styled.h2`
+background: -webkit-linear-gradient(
+  90deg,
+  rgba(255, 189, 12, 1) 0%,
+  rgba(232, 13, 214, 1) 120%,
+  rgba(255, 0, 183, 1) 100%
+);
+-webkit-background-clip: text;
+background-clip: text;
+-webkit-text-fill-color: transparent;
+padding: 0px;
+`;
+
 const Caret = styled.img.attrs({ src: caret })`
   width: 1.2rem;
   filter: invert(1);
@@ -93,7 +106,7 @@ export default () => {
 
   return (
     <Container>
-      
+        <Title>Whitelist sale has ended! Congratulations to all participants!</Title>
       <Span>
         <Image src={bossape} />
         {/* <Carousel>

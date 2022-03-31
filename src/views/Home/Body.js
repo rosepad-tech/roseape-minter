@@ -271,7 +271,7 @@ export default () => {
   } else {
     return (
       <Container>
-
+        
         <Head>
           <Title>RoseApes721</Title>
           <Sub>{wlParticipantMessage}</Sub>
