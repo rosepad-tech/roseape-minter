@@ -32,6 +32,10 @@ export const ROUTES = [
     id: "home",
   },
   {
+    title: "rarity",
+    id: "rarity",
+  },
+  {
     title: "collection",
     id: "collection",
   },{

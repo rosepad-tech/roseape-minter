@@ -135,12 +135,12 @@ export default () => {
   const [loadingText, setLoadingText] = useState("Mint");
   const [quantity, setQuantity] = useState(1);
   const [hash, setHash] = useState("");
-  const [price, setPrice] = useState(100);
-  const [totalPrice, setTotalPrice] = useState(100);
+  const [price, setPrice] = useState(150);
+  const [totalPrice, setTotalPrice] = useState(150);
   const [textStatus, setTextStatus] = useState("");
   const [whitelistEventOnly, setWhitelistEventOnly] = useState(false);
   const whiteListPrice = 100;
-  const publicPrice = 100; // hide for now. set to 150 later.
+  const publicPrice = 150; // hide for now. set to 150 later.
   let whitelistOwnerLimit = 3;
   let publicOwnerLimit = 15;
   let wlParticipantMessage = "";
@@ -154,20 +154,20 @@ export default () => {
 
     try {
       const address = await signer.getAddress()
-      const numberOfRpe = await contract.getNumberOfTokens(address);
-      const isUserWhitelisted = await contract.isUserWhitelisted(address);
-      const isUserWhitelistedFromIpfs = await checkWhiteList(address);
+      //const numberOfRpe = await contract.getNumberOfTokens(address);
+      //const isUserWhitelisted = await contract.isUserWhitelisted(address);
+      //const isUserWhitelistedFromIpfs = await checkWhiteList(address);
 
-      if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
-        wlParticipantMessage = "You are whitelisted";
-        whitelistOwnerLimit = await contract._whitelistOwnershipLimit();
-        setTotalPrice(whiteListPrice * quantity);
-        setWhitelistEventOnly(true);
-      } else {
+      //if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
+        //wlParticipantMessage = "You are whitelisted";
+        //whitelistOwnerLimit = await contract._whitelistOwnershipLimit();
+        //setTotalPrice(whiteListPrice * quantity);
+        //setWhitelistEventOnly(true);
+      //} else {
         setPrice(publicPrice);
         publicOwnerLimit = await contract._publicOwnershipLimit();
         setTotalPrice(publicPrice * quantity);
-      }
+      //}
     } catch (error) {
       console.log(error);
     }
@@ -182,17 +182,17 @@ export default () => {
 
     try {
       const address = await signer.getAddress()
-      const numberOfRpe = await contract.getNumberOfTokens(address);
-      const isUserWhitelisted = await contract.isUserWhitelisted(address);
-      const isUserWhitelistedFromIpfs = await checkWhiteList(address);
+      //const numberOfRpe = await contract.getNumberOfTokens(address);
+      //const isUserWhitelisted = await contract.isUserWhitelisted(address);
+      //const isUserWhitelistedFromIpfs = await checkWhiteList(address);
 
-      if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
-        value = whiteListPrice * quantity;
-        setPrice(whiteListPrice);
-      } else {
-        value = publicPrice * quantity;
-        setPrice(publicPrice);
-      }
+      //if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
+        //value = whiteListPrice * quantity;
+        //setPrice(whiteListPrice);
+      //} else {
+      value = publicPrice * quantity;
+      setPrice(publicPrice);
+      //}
       setTotalPrice(value);
       setQuantity(quantity);
     } catch (error) {
@@ -210,16 +210,15 @@ export default () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-    const address = await signer.getAddress();
-    const isUserWhitelisted = await contract.isUserWhitelisted(address);
-    const isUserWhitelistedFromIpfs = await checkWhiteList(address);
+    //const address = await signer.getAddress();
+    //const isUserWhitelisted = await contract.isUserWhitelisted(address);
+    //const isUserWhitelistedFromIpfs = await checkWhiteList(address);
 
-    if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
-      value = whiteListPrice * quantity;
-
-    } else {
-      value = publicPrice * quantity;
-    }
+ //   if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
+//      value = whiteListPrice * quantity;
+//    } else {
+    value = publicPrice * quantity;
+    //}
 
     let tx = await contract["mint(uint256)"](quantity, { value: ethers.utils.parseEther(value.toString()) })
       .then(tx => {
@@ -257,7 +256,7 @@ export default () => {
     )
   }
 
-  if (!whitelistEventOnly) {
+  if (whitelistEventOnly) {
     return (
       <Container>
         <Span>
@@ -306,8 +305,8 @@ export default () => {
           <GradientMintBtn stroked={true} label={1} onClick={(value) => { setQuantityVsPrice(1); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
           <GradientMintBtn stroked={true} label={2} onClick={(value) => { setQuantityVsPrice(2); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
           <GradientMintBtn stroked={true} label={3} onClick={(value) => { setQuantityVsPrice(3); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-          {/* <GradientMintBtn stroked={true} label={5} onClick={(value) => { setQuantityVsPrice(5); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-        <GradientMintBtn stroked={true} label={15} onClick={(value) => { setQuantityVsPrice(15); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn> */}
+          <GradientMintBtn stroked={true} label={5} onClick={(value) => { setQuantityVsPrice(5); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
+        <GradientMintBtn stroked={true} label={15} onClick={(value) => { setQuantityVsPrice(15); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
         </Options>
         <Small>Ready?</Small>
 
