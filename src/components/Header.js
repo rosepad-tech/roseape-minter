@@ -212,7 +212,7 @@ export default () => {
         <Brand />
       </Left>
       <Right>
-        <Links>
+        {/* <Links>
           {ROUTES.map(({ id, title, link }) => (
             <Link
               key={id}
@@ -222,7 +222,7 @@ export default () => {
               {title}
             </Link>
           ))}
-        </Links>
+        </Links> */}
         {/* <Socials>
           {SOCIALS.map((e, i) => (
             <Social
@@ -237,7 +237,7 @@ export default () => {
             </Social>
           ))}
         </Socials> */}
-        <Options>
+        {/* <Options>
           {TEST_NET ? (
             <GradientMintBtn
               stroked={true}
@@ -256,7 +256,7 @@ export default () => {
               metamaskConnected ? centerEllipsis(address) : "Connect Wallet"
             }
           />
-        </Options>
+        </Options> */}
       </Right>
     </Container>
   );

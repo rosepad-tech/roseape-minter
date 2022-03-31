@@ -129,169 +129,126 @@ const GradText = styled.span`
 
 export default () => {
 
-  const [loading, setLoading] = useState(false);
-  const [showHash, setShowHash] = useState(false);
-  const [loadingText, setLoadingText] = useState("Mint");
-  const [quantity, setQuantity] = useState(1);
-  const [hash, setHash] = useState("");
-  const [price, setPrice] = useState(1);
-  const [totalPrice, setTotalPrice] = useState(1);
-  const [textStatus, setTextStatus] = useState("");
+  // const [loading, setLoading] = useState(false);
+  // const [showHash, setShowHash] = useState(false);
+  // const [loadingText, setLoadingText] = useState("Mint");
+  // const [quantity, setQuantity] = useState(1);
+  // const [hash, setHash] = useState("");
+  // const [price, setPrice] = useState(1);
+  // const [totalPrice, setTotalPrice] = useState(1);
+  // const [textStatus, setTextStatus] = useState("");
 
-  const whiteListPrice = 1;
-  const publicPrice = 1;
-  let whitelistOwnerLimit = 3;
-  let publicOwnerLimit = 15;
-  let wlParticipantMessage = "";
-  let value = 0;
-
-
-  useEffect(async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-
-    try {
-      const address = await signer.getAddress()
-      const numberOfRpe = await contract.getNumberOfTokens(address);
-      const isUserWhitelisted = await contract.isUserWhitelisted(address);
-      const isUserWhitelistedFromIpfs = await checkWhitelistManual(address);
-
-      if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
-        wlParticipantMessage = "You are whitelisted";
-        whitelistOwnerLimit = await contract._whitelistOwnershipLimit();
-        setTotalPrice(whiteListPrice * quantity);
-
-        if ((quantity + numberOfRpe) > whitelistOwnerLimit) {
-          setTextStatus("You can only mint up to " + value + " more RPE");
-        }
-
-      } else {
-        setPrice(publicPrice);
-        publicOwnerLimit = await contract._publicOwnershipLimit();
-        setTotalPrice(publicPrice * quantity);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-  }, []);
+  // const whiteListPrice = 1;
+  // const publicPrice = 1;
+  // let whitelistOwnerLimit = 3;
+  // let publicOwnerLimit = 15;
+  // let wlParticipantMessage = "";
+  // let value = 0;
 
 
-  const setQuantityVsPrice = async (quantity) => {
-    if (localStorage.getItem("isUserWhitelisted") === "true") {
-      value = whiteListPrice * quantity;
-      setPrice(whiteListPrice);
-    } else {
-      value = publicPrice * quantity;
-      setPrice(publicPrice);
-    }
-    setTotalPrice(value);
-    setQuantity(quantity);
-  }
+  // useEffect(async () => {
+  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //   const signer = provider.getSigner();
+  //   const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
 
-  const timeout = async (delay) => {
-    return new Promise(res => setTimeout(res, delay));
-  }
+  //   try {
+  //     const address = await signer.getAddress()
+  //     const numberOfRpe = await contract.getNumberOfTokens(address);
+  //     const isUserWhitelisted = await contract.isUserWhitelisted(address);
+  //     const isUserWhitelistedFromIpfs = await checkWhitelistManual(address);
 
-  const Mint = async () => {
+  //     if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
+  //       wlParticipantMessage = "You are whitelisted";
+  //       whitelistOwnerLimit = await contract._whitelistOwnershipLimit();
+  //       setTotalPrice(whiteListPrice * quantity);
 
-    setLoading(true);
-    if (localStorage.getItem("isUserWhitelisted") === "true") {
-      value = whiteListPrice * quantity;
+  //       if ((quantity + numberOfRpe) > whitelistOwnerLimit) {
+  //         setTextStatus("You can only mint up to " + value + " more RPE");
+  //       }
 
-    } else {
-      value = publicPrice * quantity;
-    }
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-    let tx = await contract["mint(uint256)"](quantity, { value: ethers.utils.parseEther(value.toString()) })
-      .then(tx => {
-        setLoadingText("Minting...");
-        tx.wait().then(receipt => {
-          setLoadingText("Minted ");
-          setHash(receipt.transactionHash);
-          setLoading(false);
-          setShowHash(true);
-        }).catch(err => {
-          console.log(err);
-          setLoadingText("Mint");
-          setLoading(false);
-          setShowHash(false);
-        });
-      }).catch(error => {
-        setLoadingText("Mint");
-        setLoading(false);
-      });
-  };
+  //     } else {
+  //       setPrice(publicPrice);
+  //       publicOwnerLimit = await contract._publicOwnershipLimit();
+  //       setTotalPrice(publicPrice * quantity);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+
+  // }, []);
+
+
+  // const setQuantityVsPrice = async (quantity) => {
+  //   if (localStorage.getItem("isUserWhitelisted") === "true") {
+  //     value = whiteListPrice * quantity;
+  //     setPrice(whiteListPrice);
+  //   } else {
+  //     value = publicPrice * quantity;
+  //     setPrice(publicPrice);
+  //   }
+  //   setTotalPrice(value);
+  //   setQuantity(quantity);
+  // }
+
+  // const timeout = async (delay) => {
+  //   return new Promise(res => setTimeout(res, delay));
+  // }
+
+  // const Mint = async () => {
+
+  //   setLoading(true);
+  //   if (localStorage.getItem("isUserWhitelisted") === "true") {
+  //     value = whiteListPrice * quantity;
+
+  //   } else {
+  //     value = publicPrice * quantity;
+  //   }
+  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //   const signer = provider.getSigner();
+  //   const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
+  //   let tx = await contract["mint(uint256)"](quantity, { value: ethers.utils.parseEther(value.toString()) })
+  //     .then(tx => {
+  //       setLoadingText("Minting...");
+  //       tx.wait().then(receipt => {
+  //         setLoadingText("Minted ");
+  //         setHash(receipt.transactionHash);
+  //         setLoading(false);
+  //         setShowHash(true);
+  //       }).catch(err => {
+  //         console.log(err);
+  //         setLoadingText("Mint");
+  //         setLoading(false);
+  //         setShowHash(false);
+  //       });
+  //     }).catch(error => {
+  //       setLoadingText("Mint");
+  //       setLoading(false);
+  //     });
+  // };
   return (
     <Container>
 
       <Head>
         <Title>RoseApes721</Title>
-        <Sub>{wlParticipantMessage}</Sub>
-        <Sub>Mint your RoseApe now!</Sub>
       </Head>
       <Span>
         <Value>
-          <GradText>Rose#Ape</GradText>
+          <GradText>RisingApe Minting has ended!</GradText>
+          <p style={{fontSize: '20px'}}>Thank you to those who participated! </p>
+            <p style={{fontSize: '28px'}}>Congratulations to the winners! Token ID&nbsp;
+            <a href="https://explorer.emerald.oasis.dev/token/0x784dbb7b1028507348a65dd14de49223d09a73d0/instance/45/token-transfers">45</a>,&nbsp;
+            <a href="https://explorer.emerald.oasis.dev/token/0x784dbb7b1028507348a65dd14de49223d09a73d0/instance/69/token-transfers">69</a> and&nbsp; 
+            <a href="https://explorer.emerald.oasis.dev/token/0x784dbb7b1028507348a65dd14de49223d09a73d0/instance/589/token-transfers">589</a>!
+            </p>
         </Value>
       </Span>
 
       <LitContainer>
-        <Span style={{ gap: "0.125rem" }}>
-          <Label style={{ margin: "0" }}>Price / RoseApe NFT</Label>
-          {/* <Label>Get your very own RoseApes</Label> */}
-          <Div>
-            <Price>{price}</Price>
-            <Small>ROSE / NFT</Small>
-          </Div>
-        </Span>
-        <Span style={{ gap: "0.125rem", paddingTop: '10px' }}>
-          <Label style={{ margin: "0" }}>Total Price</Label>
-          {/* <Label>Get your very own RoseApes</Label> */}
-          <Div>
-            <Price>{totalPrice}</Price>
-            <Small>Total </Small>
-          </Div>
-        </Span>
+        <Value>
+        <p style={{fontSize: '20px'}}><a href="https://explorer.emerald.oasis.dev/token/0x784dbb7B1028507348A65dD14DE49223D09a73d0/token-transfers">Contract</a></p>
+        <p style={{fontSize: '20px'}}>Learn more about <a href="https://rosepad.gitbook.io/rosepad/">RosePad!</a></p>
+        </Value>
       </LitContainer>
-      <Small>How Many? (Please note we only allow 2 RisingApe per account)</Small>
-      <Span>{textStatus}</Span>
-      <Options>
-        <GradientMintBtn stroked={true} label={1} onClick={(value) => { setQuantityVsPrice(1); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-        <GradientMintBtn stroked={true} label={2} onClick={(value) => { setQuantityVsPrice(2); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-        {/* <GradientMintBtn stroked={true} label={3} onClick={(value) => { setQuantityVsPrice(3); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn> */}
-        {/* <GradientMintBtn stroked={true} label={5} onClick={(value) => { setQuantityVsPrice(5); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-        <GradientMintBtn stroked={true} label={15} onClick={(value) => { setQuantityVsPrice(15); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn> */}
-      </Options>
-      <Options>
-        {loading ?
-          <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"}></GradientMintBtn>
-          :
-          <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"} onClick={Mint}></GradientMintBtn>
-        }
-      </Options>
-
-      <Options>
-        {showHash ?
-          <GradientBtn
-            label="View your NFT Transaction"
-            stroked={true}
-            onClick={(event) => (window.open(BASE_URI_TX + hash, "_blank"))}
-          />
-          : null}
-      </Options>
-
-      <Div>{textStatus}</Div>
-      <Div>
-        {/* <Diamond /> */}
-        {/* <Span>
-          <Label>Rarity Score</Label>
-          <Score>123.3</Score>
-        </Span> */}
-      </Div>
     </Container>
   );
 };
