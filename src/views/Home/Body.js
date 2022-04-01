@@ -299,7 +299,7 @@ export default () => {
             </Div>
           </Span>
         </LitContainer>
-        {/* <Small>How Many? (Please note we only allow max of 3 RoseApe per account for the WL sale)</Small> */}
+        <Small>How Many? (Please note we only allow max of 15 RoseApe per account for the Public sale)</Small>
         <Span>{textStatus}</Span>
         <Options>
           <GradientMintBtn stroked={true} label={1} onClick={(value) => { setQuantityVsPrice(1); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>

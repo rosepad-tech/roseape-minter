@@ -106,7 +106,6 @@ export default () => {
 
   return (
     <Container>
-        <Title>Whitelist sale has ended! Congratulations to all participants!</Title>
       <Span>
         <Image src={bossape} />
         {/* <Carousel>
