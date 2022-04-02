@@ -275,7 +275,7 @@ export default () => {
         <Head>
           <Title>RoseApes721</Title>
           <Sub>{wlParticipantMessage}</Sub>
-          <Sub>Mint your RoseApe now!</Sub>
+          <Sub>RoseApes are in blind-box mode. Blind-box reveal happening soon!</Sub>
         </Head>
         <Span>
           <Value>
