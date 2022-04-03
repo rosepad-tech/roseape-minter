@@ -274,8 +274,8 @@ export default () => {
         
         <Head>
           <Title>RoseApes721</Title>
-          {/* <Sub>RoseApes revealed for token 1 to 1400! Congratulations!</Sub>
-          <Sub>The rest of the Blind-box reveal will happen after we conclude the public sale!</Sub> */}
+          <Sub>RoseApes revealed for token 1 to 1400! Congratulations!</Sub>
+          <Sub>The rest of the Blind-box reveal will happen after we conclude the public sale!</Sub>
         </Head>
         <Span>
           <Value>
