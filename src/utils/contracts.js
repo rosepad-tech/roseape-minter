@@ -1015,7 +1015,7 @@ export const ERC721ABI = [
 export const PROVIDER = new ethers.providers.JsonRpcProvider('https://emerald.oasis.dev')
 export const BASE_URI_TOKEN_LIST = "https://explorer.emerald.oasis.dev/api?module=account&action=tokenlist&address=";
 export const BASE_URI_TOKEN_TXN = "https://explorer.emerald.oasis.dev/api?module=account&action=tokentx&address=";
-
+export const RARITY_API = "https://rarity-api.roseape.io/metadata-traits/";
 export const BASE_URI_TX = "https://explorer.emerald.oasis.dev/tx/";
 export const BASE_URI_TX_TOKEN_TRANSFERS = "/token-transfers"
 export const TEST_NET = false;
