@@ -175,14 +175,14 @@ export default () => {
       <LitContainer style={{float: 'left', width: '45%'}}>
       <Sub>This is still in test mode!</Sub>
         <Span>
-          <input style={{ width: '500px', fontSize: '20px', marginTop: '20px' }} type="text" placeholder="Enter TokenID" onChange={(e) => setTokenId(e.target.value)} />
+          <input style={{ width: '500px', fontSize: '20px', marginTop: '20px' }} type="text" disabled={true} placeholder="Enter TokenID" onChange={(e) => setTokenId(e.target.value)} />
         </Span>
         <Options>
         <GradientMintBtn label={"Calculate Rarity - Coming Soon!"} onClick={calculateRarity}></GradientMintBtn>
       </Options>
       </LitContainer>
       
-      <LitContainer style={{float: 'right', width: '45%'}}>
+      {/* <LitContainer style={{float: 'right', width: '45%'}}>
         <Sub>This is still in test mode. Results may vary!</Sub>
         <Span>
         <textarea style={{fontSize: '10px', width: '500px', height: '200px', margin: '20px'}} value={JSON.stringify(metadata)}></textarea>
@@ -191,7 +191,7 @@ export default () => {
         <Span><Sub>Get TokenID Traits: <a href="https://rarity-api.roseape.io/traits/:tokenId">https://rarity-api.roseape.io/traits/:tokenId</a></Sub></Span>
         <Span><Sub>Get TokenID Traits w MD: <a href="https://rarity-api.roseape.io/metadata-traits/:tokenId">https://rarity-api.roseape.io/metadata-traits/:tokenId</a></Sub></Span>
         <Span><Sub>Get Traits Guidlines: <a href="https://rarity-api.roseape.io/traits-guideline">https://rarity-api.roseape.io/traits-guideline</a></Sub></Span>
-      </LitContainer>
+      </LitContainer> */}
 
     </Container>
   );
