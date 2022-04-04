@@ -12,6 +12,28 @@ import {
 import Card from "./Card";
 import loaderGif from 'assets/kingape.png';
 
+const Title = styled.h2`
+  color: #ff0087;
+  margin: 0.5rem 0;
+`;
+
+
+const Head = styled.div`
+  display: flex;
+  gap: 0.25rem;
+  flex-direction: column;
+  margin: 1rem 0;
+  margin-bottom: 2rem;
+
+  @media (max-width: 1024px) {
+    align-items: center;
+  }
+`;
+const Sub = styled.h4`
+  color: #ffffff;
+  margin: 0.5rem 0;
+`;
+
 const Container = styled.div`
   margin: auto;
   max-width: 1920px;
@@ -93,6 +115,10 @@ export default () => {
 
   return (
     <Container>
+       <Head>
+        <Title>RoseApes721 - Collections!</Title>
+        <Sub>View your minted RoseApes!</Sub>
+      </Head>
       {
         <Listings>
           {((tokenList.length && tokenList) || []).map(
