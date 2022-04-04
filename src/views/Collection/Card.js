@@ -2,15 +2,40 @@ import { truncate } from "lodash";
 import styled from "styled-components";
 import GradientBtn from "../../components/GradientBtn";
 import GradientMintBtn from "../../components/GradientMintBtn";
-import { BASE_URI_TX } from "utils/contracts";
+import { BASE_URI_TX, RARITY_API } from "utils/contracts";
 import useSound from 'use-sound';
 import mintSound from 'assets/button-3.mp3';
 import hiddenRep from 'assets/hidden_rep.png';
+import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
+import { useEffect, useState } from "react";
+import axios from "axios";
 
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    zIndex: '0',
+  },
+};
+
+Modal.setAppElement('#root');
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 3fr 1fr;
+`;
+
+const ModalContainer = styled.div`
+  width: 50%;
+  height: 50%;
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 3fr 1fr;
@@ -90,25 +115,103 @@ export default ({
   blockHash,
   hash
 }) => {
-  
+
+  let subtitle;
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  let dataResponse = {
+    metadata: String,
+    tokenId: String,
+    totalSupply: String,
+    traitRarityScores: {
+      background: Number
+    },
+    totalRarityScore: String
+  }
+  const [metadata, setMetadata] = useState({
+
+  });
+
+  const openModal = async () => {
+    console.log(tokenId);
+    await axios.get(`${RARITY_API}${tokenId}`)
+      .then(res => {
+        console.log(res.data);
+        dataResponse =  res.data;
+        console.log(dataResponse);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    //console.log(metadata.traitRarityScores);      
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    //subtitle.style.color = '#f00';
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   return (
-    <Container onClick={() => window.open(src, "_blank").focus()}>
+    <Container>
+      <Modal
+        isOpen={modalIsOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Modal"
+      >
+        <Card>
+          {/* //{metadata.map((object, i) => <ObjectRow obj={object} key={i} />)} */}
+          <Details>
+            <Title>{name} | {tokenId} </Title>
+            <Addr>{truncate(hash, { length: 50 })}</Addr>
+            {/* <div>{dataResponse.traitRarityScores}</div> */}
+            <Column>
+              <Row><Type>Background</Type><Symbol>{dataResponse.traitRarityScores.background}</Symbol></Row>
+              <Row>adssad</Row>
+            </Column>
+
+          </Details>
+          <GradientMintBtn onClick={closeModal}>close</GradientMintBtn>
+        </Card>
+        {/* <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2>
+        <button onClick={closeModal}>close</button>
+        <div>I am a modal</div>
+        <form>
+          <input />
+          <button>tab navigation</button>
+          <button>stays</button>
+          <button>inside</button>
+          <button>the modal</button>
+        </form> */}
+
+      </Modal>
+
       <Card>{src && <Image src={src} />}</Card>
       <Details>
         <Column>
           <Title>{name} | {tokenId} </Title>
-          <Addr>{truncate(hash, { length: 27 })}</Addr>  
+          <Addr>{truncate(hash, { length: 27 })}</Addr>
           <Row>
             <Symbol>{symbol}</Symbol>
             <Type>{type}</Type>
           </Row>
           <Row>
-          <GradientMintBtn 
-          label="TXN"
-          onClick={(event) => {window.open(BASE_URI_TX+hash, "_blank")}}/>
-          <GradientMintBtn 
+            <GradientMintBtn
+              label="TXN"
+              onClick={(event) => { window.open(BASE_URI_TX + hash, "_blank") }} />
+            <GradientMintBtn 
           label="IPFS"
           onClick={(event) => {window.open(src, "_blank")}}/>
+            {/* <GradientMintBtn
+              label="Rarity"
+              disabled={true}
+              onClick={console.log('')} /> */}
           </Row>
         </Column>
       </Details>

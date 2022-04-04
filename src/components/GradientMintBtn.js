@@ -30,7 +30,7 @@ const Container = styled.button`
   linear-gradient(96deg, #e7175d 0%, #f81f4e 100%);
   background-size: 400%;
   border-radius: 20px;
-  z-index: 1;
+  
 
   @keyframes animate {
     0% {

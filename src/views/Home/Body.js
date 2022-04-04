@@ -271,19 +271,29 @@ export default () => {
   } else {
     return (
       <Container>
-        
-        <Head>
-          <Title>RoseApes721</Title>
-          <Sub>RoseApes revealed for token 1 to 1400! Congratulations!</Sub>
-          <Sub>The rest of the Blind-box reveal will happen after we conclude the public sale!</Sub>
-        </Head>
+       
         <Span>
           <Value>
             <GradText>Rose#Ape</GradText>
+            <br/>
+            <GradText>Public Sale has ended!</GradText>
           </Value>
         </Span>
-
+         
+        <Head>
+          <Title>The rest of the Blind-box reveal will be revealed soon!</Title>
+          <Title>Rarity calculator will be available soon!</Title>
+          <Title>Congratulations to all RoseApe holders!</Title>
+        </Head>
         <LitContainer>
+        <Value>
+        <p style={{fontSize: '20px'}}><a href="https://explorer.emerald.oasis.dev/token/0x784dbb7B1028507348A65dD14DE49223D09a73d0/token-transfers">RoseApe NFT Contract</a></p>
+        <p style={{fontSize: '20px'}}>Learn more about <a href="https://rosepad.gitbook.io/rosepad/">RosePad!</a></p>
+        
+        </Value>
+      </LitContainer>
+
+        {/* <LitContainer>
           <Span style={{ gap: "0.125rem" }}>
             <Label style={{ margin: "0" }}>Price / RoseApe NFT</Label>
             <Div>
@@ -326,7 +336,7 @@ export default () => {
               onClick={(event) => (window.open(BASE_URI_TX + hash, "_blank"))}
             />
             : null}
-        </Options>
+        </Options> */}
 
         <Div>{textStatus}</Div>
         <Div>
