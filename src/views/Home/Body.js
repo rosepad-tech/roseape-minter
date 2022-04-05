@@ -281,9 +281,8 @@ export default () => {
         </Span>
          
         <Head>
-          <Title>+ The rest of the Blind-box reveal will be revealed soon!</Title>
-          <Title>+ Rarity calculator will be available soon!</Title>
           <Title>+ Congratulations to all RoseApe owners!</Title>
+          <Title>+ Rarity calculator will be available soon!</Title>          
         </Head>
         <LitContainer>
         <Value>
