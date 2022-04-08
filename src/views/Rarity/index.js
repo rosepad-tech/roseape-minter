@@ -172,28 +172,76 @@ export default () => {
         setTokenId(res.data.tokenId);
         setMetadata(res.data);
         setTraitRarityScore(res.data.traitRarityScores);
-        setImage(baseUri+ "/" + res.data.tokenId + ".png");
+        setImage(baseUri + "/" + res.data.tokenId + ".png");
       })
       .catch(err => {
         setMetadata("No Data");
         console.log(err);
       })
-      
-      console.log("calculateRarity");
-      console.log(metadata);
-   };
+
+    console.log("calculateRarity");
+    console.log(metadata);
+  };
   return (
     <Container>
       <Head>
         <Title>RoseApes721 - Rarity Calculator</Title>
       </Head>
-      <LitContainer style={{float: 'left', width: '45%'}}>
+      <LitContainer style={{ float: 'left', width: '45%' }}>
         <Span>
           <LitInput style={{ width: '100%', fontSize: '20px', marginTop: '20px' }} type="text" placeholder="Enter TokenID" onChange={(e) => setTokenId(e.target.value)} />
         </Span>
         <Options>
-        <GradientMintBtn label={"Calculate Rarity!"} onClick={calculateRarity}></GradientMintBtn>
-      </Options>
+          <GradientMintBtn label={"Calculate Rarity!"} onClick={calculateRarity}></GradientMintBtn>
+        </Options>
+        <Span>
+
+          <Span><Title>Score Range Legend:</Title></Span>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <Span><GradText>{'105.00+'}</GradText></Span>
+                </td>
+                <td>
+                  <Span><GradText>Legendary</GradText></Span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <Span><GradText>{'104 - 105'}</GradText></Span>
+                </td>
+                <td>
+                  <Span><GradText>Epic</GradText></Span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <Span><GradText>{'<104 to 100'}</GradText></Span>
+                </td>
+                <td>
+                  <Span><GradText>Rare</GradText></Span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <Span><GradText>{'<100 to 68'}</GradText></Span>
+                </td>
+                <td>
+                  <Span><GradText>Uncommon</GradText></Span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <Span><GradText>{'<68'}</GradText></Span>
+                </td>
+                <td>
+                  <Span><GradText>Common</GradText></Span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </Span>
       </LitContainer>
       {/* To provide a guideline for the community. Here are the score range that will indicate the rarity of your NFT
 
@@ -202,24 +250,24 @@ export default () => {
 <104 to 100 - Rare
 <100 to 68 - Uncommon
 <68 - Common */}
-      <LitContainer style={{float: 'right', width: '45%'}}>
+      <LitContainer style={{ float: 'right', width: '45%' }}>
         <Span>
-            <img src={image} alt="RoseApe" style={{paddingTop: '10px', width: '250px', height: '250px'}}/>
+          <img src={image} alt="RoseApe" style={{ paddingTop: '10px', width: '250px', height: '250px' }} />
         </Span>
         <Span>
-        <Span><Title>Rarity Score: {metadata.totalRarityScore}</Title></Span>
-        <Span><Sub>Background: {traitRarityScore.background}</Sub></Span>
-        <Span><Sub>Base Ape: {traitRarityScore.baseape}</Sub></Span>
-        <Span><Sub>Clothes: {traitRarityScore.baseclothes}</Sub></Span>
-        <Span><Sub>Earrings: {traitRarityScore.earrings}</Sub></Span>
-        <Span><Sub>Eyes: {traitRarityScore.eyes}</Sub></Span>
-        <Span><Sub>Headwear: {traitRarityScore.headwear}</Sub></Span>
-        <Span><Sub>Mouth: {traitRarityScore.mouth}</Sub></Span>
-        <Span><Sub>Roses: {traitRarityScore.roses}</Sub></Span>
-        <Span><Sub>Necklace:{traitRarityScore.necklace}</Sub></Span>
-        <Span><Sub>Crypto: {traitRarityScore.crypto}</Sub></Span>
+          <Span><Title>Rarity Score: {metadata.totalRarityScore}</Title></Span>
+          <Span><Sub>Background: {traitRarityScore.background}</Sub></Span>
+          <Span><Sub>Base Ape: {traitRarityScore.baseape}</Sub></Span>
+          <Span><Sub>Clothes: {traitRarityScore.baseclothes}</Sub></Span>
+          <Span><Sub>Earrings: {traitRarityScore.earrings}</Sub></Span>
+          <Span><Sub>Eyes: {traitRarityScore.eyes}</Sub></Span>
+          <Span><Sub>Headwear: {traitRarityScore.headwear}</Sub></Span>
+          <Span><Sub>Mouth: {traitRarityScore.mouth}</Sub></Span>
+          <Span><Sub>Roses: {traitRarityScore.roses}</Sub></Span>
+          <Span><Sub>Necklace:{traitRarityScore.necklace}</Sub></Span>
+          <Span><Sub>Crypto: {traitRarityScore.crypto}</Sub></Span>
         </Span>
-       
+
         {/* <Span><Sub>API: <a href="https://rarity-api.roseape.io/">https://rarity-api.roseape.io/</a></Sub></Span>
         <Span><Sub>Get TokenID Traits: <a href="https://rarity-api.roseape.io/traits/:tokenId">https://rarity-api.roseape.io/traits/:tokenId</a></Sub></Span>
         <Span><Sub>Get TokenID Traits w MD: <a href="https://rarity-api.roseape.io/metadata-traits/:tokenId">https://rarity-api.roseape.io/metadata-traits/:tokenId</a></Sub></Span>
