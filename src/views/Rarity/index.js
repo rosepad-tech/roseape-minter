@@ -157,68 +157,73 @@ const GradText = styled.span`
 
 
 export default () => {
-
+  const baseUri = "https://ipfs.io/ipfs/QmTymciMsxGjGbG24oVigctR87oDFfZugwKutpP3p5HSGc/";
   const [tokenId, setTokenId] = useState(0);
-  const [metadata, setMetadata] = useState('');
+  const [metadata, setMetadata] = useState("");
+  const [traitRarityScore, setTraitRarityScore] = useState("");
+  const [image, setImage] = useState("https://ipfs.io/ipfs/QmTymciMsxGjGbG24oVigctR87oDFfZugwKutpP3p5HSGc/0.png");
   //{"metadata":{"name":"ROSEAPE#1400","description":"Brutally enhance RoseApe variant - 1400","image":"/1400.png","attributes":[{"trait_type":"0background","value":"rose_network"},{"trait_type":"1baseape","value":"Orangutan_Botanist"},{"trait_type":"2baseclothes","value":"tron"},{"trait_type":"3earrings","value":"gold_ear"},{"trait_type":"4eyes","value":"tank"},{"trait_type":"5headwear","value":"golden_hat"},{"trait_type":"6mouth","value":"playful"},{"trait_type":"7roses","value":"trans"},{"trait_type":"8necklace","value":"snake"},{"trait_type":"9crypto","value":"protocollabs"}]},"tokenId":"1400","totalSupply":"1400","traitRarityScores":{"background":9.271523178807946,"baseape":5.737704918032787,"baseclothes":9.655172413793103,"earrings":9.929078014184396,"eyes":9.58904109589041,"headwear":10.526315789473685,"mouth":10.144927536231885,"roses":9.333333333333334,"necklace":10.071942446043165,"crypto":8.974358974358974},"totalRarityScore":93.23339770014968}
 
   const calculateRarity = async () => {
 
-
-    axios.get(`${RARITY_API}${tokenId}`)
+    await axios.get(`${RARITY_API}${tokenId}`)
       .then(res => {
         console.log(res.data);
         setTokenId(res.data.tokenId);
         setMetadata(res.data);
+        setTraitRarityScore(res.data.traitRarityScores);
+        setImage(baseUri+ "/" + res.data.tokenId + ".png");
       })
       .catch(err => {
         setMetadata("No Data");
         console.log(err);
       })
-  
-    // setLoading(true);
-    // const provider = new ethers.providers.Web3Provider(window.ethereum);
-    // const signer = provider.getSigner();
-    // const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-    // //const address = await signer.getAddress();
-    // //const isUserWhitelisted = await contract.isUserWhitelisted(address);
-    // //const isUserWhitelistedFromIpfs = await checkWhiteList(address);
-
-    // //   if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
-    // //      value = whiteListPrice * quantity;
-    // //    } else {
-    // value = publicPrice * quantity;
-    // //}
-
-    // let tx = await contract["mint(uint256)"](quantity, { value: ethers.utils.parseEther(value.toString()) });
-
-    //{"metadata":{"name":"ROSEAPE#1400","description":"Brutally enhance RoseApe variant - 1400","image":"/1400.png","attributes":[{"trait_type":"0background","value":"rose_network"},{"trait_type":"1baseape","value":"Orangutan_Botanist"},{"trait_type":"2baseclothes","value":"tron"},{"trait_type":"3earrings","value":"gold_ear"},{"trait_type":"4eyes","value":"tank"},{"trait_type":"5headwear","value":"golden_hat"},{"trait_type":"6mouth","value":"playful"},{"trait_type":"7roses","value":"trans"},{"trait_type":"8necklace","value":"snake"},{"trait_type":"9crypto","value":"protocollabs"}]},"tokenId":"1400","totalSupply":"1400","traitRarityScores":{"background":9.271523178807946,"baseape":5.737704918032787,"baseclothes":9.655172413793103,"earrings":9.929078014184396,"eyes":9.58904109589041,"headwear":10.526315789473685,"mouth":10.144927536231885,"roses":9.333333333333334,"necklace":10.071942446043165,"crypto":8.974358974358974},"totalRarityScore":93.23339770014968}
-  };
+      
+      console.log("calculateRarity");
+      console.log(metadata);
+   };
   return (
     <Container>
       <Head>
         <Title>RoseApes721 - Rarity Calculator</Title>
-        <Sub>Coming Soon!</Sub>
       </Head>
       <LitContainer style={{float: 'left', width: '45%'}}>
-      <Sub>This is still in test mode!</Sub>
         <Span>
-          <LitInput style={{ width: '500px', fontSize: '20px', marginTop: '20px' }} type="text" placeholder="Enter TokenID" onChange={(e) => setTokenId(e.target.value)} />
+          <LitInput style={{ width: '100%', fontSize: '20px', marginTop: '20px' }} type="text" placeholder="Enter TokenID" onChange={(e) => setTokenId(e.target.value)} />
         </Span>
         <Options>
-        <GradientMintBtn label={"Calculate Rarity - Coming Soon!"} onClick={calculateRarity}></GradientMintBtn>
+        <GradientMintBtn label={"Calculate Rarity!"} onClick={calculateRarity}></GradientMintBtn>
       </Options>
       </LitContainer>
-      
+      {/* To provide a guideline for the community. Here are the score range that will indicate the rarity of your NFT
+
+105.00 + - Legendary
+104 - 105 - Epic
+<104 to 100 - Rare
+<100 to 68 - Uncommon
+<68 - Common */}
       <LitContainer style={{float: 'right', width: '45%'}}>
-        <Sub>This is still in test mode. Results may vary!</Sub>
         <Span>
-        <LitTextArea style={{fontSize: '10px', width: '500px', height: '200px', margin: '20px'}} value={JSON.stringify(metadata)}></LitTextArea>
+            <img src={image} alt="RoseApe" style={{paddingTop: '10px', width: '250px', height: '250px'}}/>
         </Span>
-        <Span><Sub>API: <a href="https://rarity-api.roseape.io/">https://rarity-api.roseape.io/</a></Sub></Span>
+        <Span>
+        <Span><Title>Rarity Score: {metadata.totalRarityScore}</Title></Span>
+        <Span><Sub>Background: {traitRarityScore.background}</Sub></Span>
+        <Span><Sub>Base Ape: {traitRarityScore.baseape}</Sub></Span>
+        <Span><Sub>Clothes: {traitRarityScore.baseclothes}</Sub></Span>
+        <Span><Sub>Earrings: {traitRarityScore.earrings}</Sub></Span>
+        <Span><Sub>Eyes: {traitRarityScore.eyes}</Sub></Span>
+        <Span><Sub>Headwear: {traitRarityScore.headwear}</Sub></Span>
+        <Span><Sub>Mouth: {traitRarityScore.mouth}</Sub></Span>
+        <Span><Sub>Roses: {traitRarityScore.roses}</Sub></Span>
+        <Span><Sub>Necklace:{traitRarityScore.necklace}</Sub></Span>
+        <Span><Sub>Crypto: {traitRarityScore.crypto}</Sub></Span>
+        </Span>
+       
+        {/* <Span><Sub>API: <a href="https://rarity-api.roseape.io/">https://rarity-api.roseape.io/</a></Sub></Span>
         <Span><Sub>Get TokenID Traits: <a href="https://rarity-api.roseape.io/traits/:tokenId">https://rarity-api.roseape.io/traits/:tokenId</a></Sub></Span>
         <Span><Sub>Get TokenID Traits w MD: <a href="https://rarity-api.roseape.io/metadata-traits/:tokenId">https://rarity-api.roseape.io/metadata-traits/:tokenId</a></Sub></Span>
-        <Span><Sub>Get Traits Guidlines: <a href="https://rarity-api.roseape.io/traits-guideline">https://rarity-api.roseape.io/traits-guideline</a></Sub></Span>
+        <Span><Sub>Get Traits Guidlines: <a href="https://rarity-api.roseape.io/traits-guideline">https://rarity-api.roseape.io/traits-guideline</a></Sub></Span> */}
       </LitContainer>
 
     </Container>
