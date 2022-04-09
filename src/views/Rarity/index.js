@@ -157,7 +157,7 @@ const GradText = styled.span`
 
 
 export default () => {
-  const baseUri = "https://ipfs.io/ipfs/QmTymciMsxGjGbG24oVigctR87oDFfZugwKutpP3p5HSGc/";
+  const baseUri = "https://ipfs.io/ipfs/QmTymciMsxGjGbG24oVigctR87oDFfZugwKutpP3p5HSGc";
   const [tokenId, setTokenId] = useState(0);
   const [metadata, setMetadata] = useState("");
   const [traitRarityScore, setTraitRarityScore] = useState("");
