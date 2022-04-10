@@ -281,8 +281,7 @@ export default () => {
         </Span>
          
         <Head>
-          <Title>+ Congratulations to all RoseApe owners!</Title>
-          <Title>+ Rarity calculator will be available soon!</Title>          
+          <Title>Congratulations to all RoseApe owners!</Title>
         </Head>
         <LitContainer>
         <Value>
