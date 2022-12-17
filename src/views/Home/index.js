@@ -2,7 +2,6 @@ import brand from "assets/brand.png";
 import caret from "assets/caret.svg";
 import kingape from "assets/kingape.png";
 import hiddenape from "assets/hidden.png";
-import bossape from "assets/boss.png";
 import { StackedCarousel } from "react-stacked-carousel";
 import styled from "styled-components";
 import Body from "./Body";
@@ -107,32 +106,8 @@ export default () => {
   return (
     <Container>
       <Span>
-        <Image src={bossape} />
-        {/* <Carousel>
-          <StackedCarousel
-            autoRotate={false}
-            onCardChange={onCardChange}
-            containerClassName={"container"}
-            cardClassName="card"
-            // leftButton={
-            //   <CaretBtn style={{ left: 0 }}>
-            //     <Caret style={{ transform: "rotate(90deg)" }} />
-            //   </CaretBtn>
-            // }
-            // rightButton={
-            //   <CaretBtn style={{ right: 0 }}>
-            //     <Caret style={{ transform: "rotate(-90deg)" }} />
-            //   </CaretBtn>
-            // }
-          >
-            <Card key={"1"}>
-              <Image src={hiddenape} />
-            </Card>
-            <Card key={"2"}>
-              <Image />
-            </Card>
-          </StackedCarousel>
-        </Carousel> */}
+
+<Image src={brand} />
         <Body />
       </Span>
     </Container>

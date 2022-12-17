@@ -13,11 +13,11 @@ const Container = styled.div`
   overflow: auto;
   padding: 1rem;
   background: radial-gradient(circle at center, #ff00731a, transparent 40%),
-    radial-gradient(circle at top left, #ff007140, transparent 12%),
-    radial-gradient(circle at top right, #ff007140, transparent 15%),
-    radial-gradient(circle at bottom right, #ff007140, transparent 30%),
-    radial-gradient(circle at bottom left, #ff007140, transparent 25%),
-    linear-gradient(96deg, #11010a 0%, #3535353b 100%);
+  radial-gradient(circle at top left, #020000, transparent 12%),
+  radial-gradient(circle at top right, #5eff00, transparent 15%),
+  radial-gradient(circle at bottom right, #020000, transparent 30%),
+  radial-gradient(circle at bottom left, #5eff00, transparent 25%),
+  linear-gradient(96deg, #11010a 0%, #3535353b 100%);
 
   &::-webkit-scrollbar {
     width: 7px;

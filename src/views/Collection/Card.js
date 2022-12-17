@@ -66,7 +66,7 @@ const Details = styled.div`
 `;
 
 const Title = styled.h3`
-  color: #ff0087;
+  color: #5eff00;
   margin: 0.125rem 0;
 `;
 
@@ -79,7 +79,7 @@ const Addr = styled.p`
 
 const Symbol = styled.p`
   margin: 0.125rem 0;
-  color: #ff0087;
+  color: #5eff00;
   background-color: #ff008729;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;

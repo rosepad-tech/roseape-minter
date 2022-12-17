@@ -32,14 +32,7 @@ export const ROUTES = [
     id: "home",
   },
   {
-    title: "rarity",
-    id: "rarity",
-  },
-  {
     title: "collection",
     id: "collection",
-  },{
-    title: "whitelist check",
-    id: "whitelist-check",
-  }
+  },
 ].map((e, i) => ({ ...e, link: `/${i === 0 ? "" : e.id}` }));

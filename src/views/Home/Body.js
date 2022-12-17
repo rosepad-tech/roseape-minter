@@ -4,15 +4,7 @@ import styled from "styled-components";
 import { ERC721, ERC721ABI, BASE_URI_TX, BASE_URI_TOKEN_TXN } from "utils/contracts";
 import GradientBtn from "../../components/GradientBtn";
 import GradientMintBtn from "../../components/GradientMintBtn";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { TripleMaze } from 'react-spinner-animated';
-import { toggleNotification } from "store/notification";
-import useSound from 'use-sound';
-import mintSound from 'assets/button-3.mp3';
-import { QuantityPicker } from 'react-qty-picker';
-import axios from "axios";
-import { checkWhiteList } from "utils/helpers";
 
 
 import 'assets/spinner/index.css'
@@ -27,7 +19,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h2`
-  color: #ff0087;
+  color: #5eff00;
   margin: 0.5rem 0;
 `;
 const Sub = styled.h4`
@@ -41,7 +33,7 @@ const Value = styled.h1`
   margin: 0.125rem -0;
 `;
 const Label = styled.h4`
-  color: #ff0087;
+  color: #5eff00;
 `;
 
 const Options = styled.div`
@@ -92,9 +84,9 @@ const Diamond = styled.img.attrs({ src: diamond })`
 
 const LitContainer = styled.div`
   background-color: black;
-  -webkit-box-shadow: inset 0 0 1.4rem #ff008073;
-  -moz-box-shadow: inset 0 0 1.4rem #ff008073;
-  box-shadow: inset 0 0 1.4rem #ff008073;
+  -webkit-box-shadow: inset 0 0 1.4rem #0a0700;
+  -moz-box-shadow: inset 0 0 1.4rem #020000;
+  box-shadow: inset 0 0 1.4rem #0a0700;
   border-radius: 1rem;
   width: fit-content;
   height: fit-content;
@@ -135,15 +127,10 @@ export default () => {
   const [loadingText, setLoadingText] = useState("Mint");
   const [quantity, setQuantity] = useState(1);
   const [hash, setHash] = useState("");
-  const [price, setPrice] = useState(150);
-  const [totalPrice, setTotalPrice] = useState(150);
+  const [price, setPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [textStatus, setTextStatus] = useState("");
-  const [whitelistEventOnly, setWhitelistEventOnly] = useState(false);
-  const whiteListPrice = 100;
-  const publicPrice = 150; // hide for now. set to 150 later.
-  let whitelistOwnerLimit = 3;
-  let publicOwnerLimit = 15;
-  let wlParticipantMessage = "";
+  const publicPrice = 0; // hide for now. set to 150 later.
   let value = 0;
 
 
@@ -152,25 +139,6 @@ export default () => {
     const signer = provider.getSigner();
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
 
-    try {
-      const address = await signer.getAddress()
-      //const numberOfRpe = await contract.getNumberOfTokens(address);
-      //const isUserWhitelisted = await contract.isUserWhitelisted(address);
-      //const isUserWhitelistedFromIpfs = await checkWhiteList(address);
-
-      //if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
-        //wlParticipantMessage = "You are whitelisted";
-        //whitelistOwnerLimit = await contract._whitelistOwnershipLimit();
-        //setTotalPrice(whiteListPrice * quantity);
-        //setWhitelistEventOnly(true);
-      //} else {
-        setPrice(publicPrice);
-        publicOwnerLimit = await contract._publicOwnershipLimit();
-        setTotalPrice(publicPrice * quantity);
-      //}
-    } catch (error) {
-      console.log(error);
-    }
 
   }, []);
 
@@ -182,17 +150,8 @@ export default () => {
 
     try {
       const address = await signer.getAddress()
-      //const numberOfRpe = await contract.getNumberOfTokens(address);
-      //const isUserWhitelisted = await contract.isUserWhitelisted(address);
-      //const isUserWhitelistedFromIpfs = await checkWhiteList(address);
-
-      //if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
-        //value = whiteListPrice * quantity;
-        //setPrice(whiteListPrice);
-      //} else {
       value = publicPrice * quantity;
       setPrice(publicPrice);
-      //}
       setTotalPrice(value);
       setQuantity(quantity);
     } catch (error) {
@@ -210,15 +169,7 @@ export default () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(ERC721, ERC721ABI, signer);
-    //const address = await signer.getAddress();
-    //const isUserWhitelisted = await contract.isUserWhitelisted(address);
-    //const isUserWhitelistedFromIpfs = await checkWhiteList(address);
-
- //   if (isUserWhitelisted || isUserWhitelistedFromIpfs) {
-//      value = whiteListPrice * quantity;
-//    } else {
     value = publicPrice * quantity;
-    //}
 
     let tx = await contract["mint(uint256)"](quantity, { value: ethers.utils.parseEther(value.toString()) })
       .then(tx => {
@@ -239,93 +190,25 @@ export default () => {
         setLoading(false);
       });
   };
-
-  if (false) {
     return (
       <Container>
-        <Head>
-          <Title>RoseApes721</Title>
-        </Head>
-        <Span>
-          <Value>
-            <Sub>Minting day is coming!</Sub>
-          <GradText>03/30/2022 - 1PM UTC</GradText>
-          </Value>
-        </Span>
-      </Container>
-    )
-  }
 
-  if (whitelistEventOnly) {
-    return (
-      <Container>
-        <Span>
-          <Value>
-            <GradText>Whitelist sale is on-going! Connect your whitelisted wallet to participate!</GradText>
-
-            <Small>*Refresh page after connecting your whitelisted wallet!</Small>
-          </Value>
-        </Span>
-      </Container>
-    )
-  } else {
-    return (
-      <Container>
-       
-        <Span>
-          <Value>
-            <GradText>Rose#Ape</GradText>
-            <br/>
-            <GradText>Public Sale has ended!</GradText>
-          </Value>
-        </Span>
-         
-        <Head>
-          <Title>Congratulations to all RoseApe owners!</Title>
-        </Head>
         <LitContainer>
-        <Value>
-        <p style={{fontSize: '20px'}}><a href="https://explorer.emerald.oasis.dev/token/0x784dbb7B1028507348A65dD14DE49223D09a73d0/token-transfers">RoseApe NFT Contract</a></p>
-        <p style={{fontSize: '20px'}}>Learn more about <a href="https://rosepad.gitbook.io/rosepad/">RosePad!</a></p>
-        
-        </Value>
-      </LitContainer>
-
-        {/* <LitContainer>
           <Span style={{ gap: "0.125rem" }}>
-            <Label style={{ margin: "0" }}>Price / RoseApe NFT</Label>
+            <Label style={{ margin: "0" }}>Mint your Free Estuary NFT</Label>
             <Div>
-              <Price>{price}</Price>
-              <Small>ROSE / NFT</Small>
             </Div>
           </Span>
-          <Span style={{ gap: "0.125rem", paddingTop: '10px' }}>
-            <Label style={{ margin: "0" }}>Total Price</Label>
-            <Div>
-              <Price>{totalPrice}</Price>
-              <Small>Total </Small>
-            </Div>
-          </Span>
-        </LitContainer>
-        <Small>How Many? (Please note we only allow max of 15 RoseApe per account for the Public sale)</Small>
+
         <Span>{textStatus}</Span>
         <Options>
-          <GradientMintBtn stroked={true} label={1} onClick={(value) => { setQuantityVsPrice(1); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-          <GradientMintBtn stroked={true} label={2} onClick={(value) => { setQuantityVsPrice(2); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-          <GradientMintBtn stroked={true} label={3} onClick={(value) => { setQuantityVsPrice(3); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-          <GradientMintBtn stroked={true} label={5} onClick={(value) => { setQuantityVsPrice(5); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-        <GradientMintBtn stroked={true} label={15} onClick={(value) => { setQuantityVsPrice(15); setLoadingText("Mint"); setShowHash(false); }} > </GradientMintBtn>
-        </Options>
-        <Small>Ready?</Small>
-
-        <Options>
           {loading ?
-            <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"}></GradientMintBtn>
+            <GradientMintBtn label={loadingText}></GradientMintBtn>
             :
-            <GradientMintBtn label={loadingText + " " + quantity + " RoseApe(s)"} onClick={Mint}></GradientMintBtn>
+            <GradientMintBtn label={loadingText} onClick={Mint}></GradientMintBtn>
           }
         </Options>
-
+        </LitContainer>
         <Options>
           {showHash ?
             <GradientBtn
@@ -334,7 +217,7 @@ export default () => {
               onClick={(event) => (window.open(BASE_URI_TX + hash, "_blank"))}
             />
             : null}
-        </Options> */}
+        </Options>
 
         <Div>{textStatus}</Div>
         <Div>
@@ -346,5 +229,4 @@ export default () => {
         </Div>
       </Container>
     );
-  }
-};
+    };

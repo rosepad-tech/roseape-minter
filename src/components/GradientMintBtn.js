@@ -11,26 +11,20 @@ const Inset = styled.div`
 `;
 
 const Container = styled.button`
-  
+
   padding: 0.75rem 1.75rem;
   border-radius: 5rem;
   height: fit-content;
-  width: fit-content;
+  width: 100%;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  background: linear-gradient(90deg, yellow, orange, red, violet, purple, blue, yellow);
-  background: radial-gradient(circle at center, #e100ff8d, transparent 40%),
-  radial-gradient(circle at top left, #ff9900, transparent 12%),
-  radial-gradient(circle at top right, #ff0073, transparent 15%),
-  radial-gradient(circle at bottom right, #ffbb00, transparent 30%),
-  radial-gradient(circle at bottom left, #ff0073, transparent 25%),
-  linear-gradient(96deg, #e7175d 0%, #f81f4e 100%);
+  background: linear-gradient(90deg, #5eff00, #5eff00, rgb(2, 0, 0), #5eff00, purple, blue, yellow);
   background-size: 400%;
   border-radius: 20px;
-  
+
 
   @keyframes animate {
     0% {
@@ -53,7 +47,7 @@ const Container = styled.button`
     right: -5px;
     bottom: -5px;
     z-index: -1;
-    background: linear-gradient(45deg, #f15523, #ef3224, #7c3697);
+    background: linear-gradient(45deg, #5eff00, #0a0700, #5eff00);
     background-size: 400%;
     border-radius: 40px;
     opacity: 0;
@@ -92,7 +86,7 @@ export default ({
     <Container onClick={() => onClick()}>
       {stroked && <Inset />}
       {icon && <Icon src={icon} />}
-      <Label icon={!!icon} style={{ color: stroked ? "#ff0073" : "white" }}>
+      <Label icon={!!icon} style={{ color: stroked ? "#0a0700" : "black" }}>
         {label || children}
       </Label>
     </Container>

@@ -18,7 +18,7 @@ const Container = styled.div`
   align-items: center;
   gap: 1rem;
   justify-content: space-between;
-  padding: 1rem 2rem 0rem 0rem;
+  padding: 1rem 2rem 2rem 0rem;
   position: fixed;
   backdrop-filter: blur(10px);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
@@ -119,7 +119,7 @@ const Options = styled.div`
 export default () => {
   const dispatch = useDispatch();
   const [metamaskConnected, setMetamaskConnected] = useState(
-    localStorage.getItem("roseapeMetamaskConnected")
+    localStorage.getItem("sampleNftMetamaskConnected")
   );
   const address = useSelector((state) => state.global.address);
 
@@ -134,8 +134,8 @@ export default () => {
       });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const network = await provider.getNetwork();
-
-      if (network.chainId !== 42262) {
+      console.log(network.chainId);
+      if (network.chainId !== 31415) {
         dispatch(
           toggleNotification({
             message: "Wrong Network Detected.",
@@ -146,11 +146,11 @@ export default () => {
         return;
       } else {
         if (
-          localStorage.getItem("roseapeMetamaskConnected") &&
+          localStorage.getItem("sampleNftMetamaskConnected") &&
           accounts.length == 0
         ) {
           setMetamaskConnected(false);
-          localStorage.setItem("roseapeMetamaskConnected", false);
+          localStorage.setItem("sampleNftMetamaskConnected", false);
         }
 
         await window.ethereum
@@ -159,7 +159,7 @@ export default () => {
             if (accounts.length > 0) {
               dispatch(setAddress(accounts[0].toLowerCase()));
               setMetamaskConnected(true);
-              localStorage.setItem("roseapeMetamaskConnected", true);
+              localStorage.setItem("sampleNftMetamaskConnected", true);
             }
           });
       }
@@ -176,14 +176,14 @@ export default () => {
 
   const clearMetamaskConnection = async () => {
     setMetamaskConnected(false);
-    localStorage.setItem("roseapeMetamaskConnected", false);
+    localStorage.setItem("sampleNftMetamaskConnected", false);
   };
 
   if (window.ethereum) {
     window.ethereum.on("accountsChanged", function (accounts) {
       dispatch(setAddress(accounts[0].toLowerCase()));
       setMetamaskConnected(true);
-      localStorage.setItem("roseapeMetamaskConnected", true);
+      localStorage.setItem("sampleNftMetamaskConnected", true);
     });
   }
 
@@ -192,14 +192,14 @@ export default () => {
     const accounts = await provider.listAccounts();
 
     if (
-      localStorage.getItem("roseapeMetamaskConnected") &&
+      localStorage.getItem("sampleNftMetamaskConnected") &&
       accounts.length == 0
     ) {
       setMetamaskConnected(false);
-      localStorage.setItem("roseapeMetamaskConnected", false);
+      localStorage.setItem("sampleNftMetamaskConnected", false);
     }
 
-    if (localStorage.getItem("roseapeMetamaskConnected")) {
+    if (localStorage.getItem("sampleNftMetamaskConnected")) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const accounts = await provider.listAccounts();
       dispatch(setAddress(accounts[0].toLowerCase()));
@@ -209,7 +209,7 @@ export default () => {
   return (
     <Container>
       <Left>
-        <Brand />
+  <br/>
       </Left>
       <Right>
         <Links>

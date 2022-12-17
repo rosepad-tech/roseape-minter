@@ -14,12 +14,12 @@ const Container = styled.button`
   outline: none;
   border: none;
   cursor: pointer;
-  background: radial-gradient(circle at center, #e100ff8d, transparent 40%),
-    radial-gradient(circle at top left, #ff9900, transparent 12%),
-    radial-gradient(circle at top right, #ff0073, transparent 15%),
-    radial-gradient(circle at bottom right, #ffbb00, transparent 30%),
-    radial-gradient(circle at bottom left, #ff0073, transparent 25%),
-    linear-gradient(96deg, #e7175d 0%, #f81f4e 100%);
+  background: radial-gradient(circle at center, #5eff00, transparent 40%),
+  radial-gradient(circle at top left, #5eff00, transparent 12%),
+  radial-gradient(circle at top right, #5eff00, transparent 15%),
+  radial-gradient(circle at bottom right, #5eff00, transparent 30%),
+  radial-gradient(circle at bottom left, #5eff00, transparent 25%),
+  linear-gradient(96deg, #0a0700 0%, #020000 100%);
   padding: 0.75rem 1.75rem;
   border-radius: 5rem;
   height: fit-content;
@@ -62,7 +62,7 @@ export default ({
     <Container onClick={() => onClick()}>
       {stroked && <Inset />}
       {icon && <Icon src={icon} />}
-      <Label icon={!!icon} style={{ color: stroked ? "#ff0073" : "white" }}>
+      <Label icon={!!icon} style={{ color: stroked ? "#faf6f6" : "black" }}>
         {label || children}
       </Label>
     </Container>

@@ -20,7 +20,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h2`
-  color: #ff0087;
+  color: #5eff00;
   margin: 0.5rem 0;
 `;
 const Sub = styled.h4`
@@ -34,7 +34,7 @@ const Value = styled.h1`
   margin: 0.125rem -0;
 `;
 const Label = styled.h4`
-  color: #ff0087;
+  color: #5eff00;
 `;
 
 const Options = styled.div`
@@ -85,9 +85,9 @@ const Diamond = styled.img.attrs({ src: diamond })`
 
 const LitContainer = styled.div`
   background-color: black;
-  -webkit-box-shadow: inset 0 0 1.4rem #ff008073;
-  -moz-box-shadow: inset 0 0 1.4rem #ff008073;
-  box-shadow: inset 0 0 1.4rem #ff008073;
+  -webkit-box-shadow: inset 0 0 1.4rem #5eff00;
+  -moz-box-shadow: inset 0 0 1.4rem #5eff00;
+  box-shadow: inset 0 0 1.4rem #5eff00;
   border-radius: 1rem;
   width: fit-content;
   height: fit-content;
@@ -149,7 +149,7 @@ export default () => {
       {loading ? <DoubleOrbit text="Loading..." bgColor={"#F0A500"} center={false}/> : console.log(false)}
       
       <Head>
-        <Title>Roseapes - Public Mint</Title>
+        <Title>Estuary - Mint</Title>
         {/* <Sub>Ape God - Blue</Sub> */}
       </Head>
       {/* <Span>
@@ -158,19 +158,10 @@ export default () => {
         </Value>
         <Label style={{ margin: "0.125rem 0" }}>0xb0831....9e8cb396374</Label>
       </Span> */}
-      <LitContainer>
-        <Span style={{ gap: "0.125rem" }}>
-          <Label style={{ margin: "0" }}>Price</Label>
-          {/* <Label>Get your very own RoseApes</Label> */}
-          <Div>
-            <Price>1</Price>
-            <Small>ROSE</Small>
-          </Div>
-        </Span>
-      </LitContainer>
+
       <Options>
         <GradientBtn label="Mint" onClick={Mint} />
-        
+
       </Options>
       <Div>{textStatus}</Div>
       <Div>

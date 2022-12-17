@@ -13,7 +13,7 @@ import Card from "./Card";
 import loaderGif from 'assets/kingape.png';
 
 const Title = styled.h2`
-  color: #ff0087;
+  color: #5eff00;
   margin: 0.5rem 0;
 `;
 
@@ -40,7 +40,7 @@ const Container = styled.div`
 `;
 const Symbol = styled.p`
   margin: 0.125rem 0;
-  color: #ff0087;
+  color: #5eff00;
   background-color: #ff008729;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
@@ -67,20 +67,19 @@ export default () => {
   useEffect(async () => {
     
     try {
-      
+
       setTokenList(
         await axios
           .get(`${BASE_URI_TOKEN_TXN}${address}`)
           .then(({ data: { result } }) =>
             Promise.all(
               (result || []).map(async (e) => {
-                setLoaderMessage("Loading RoseApe Tokens");
+                setLoaderMessage("Loading Tokens");
                 if (
                   e.tokenName == "RoseApe" &&
                   e.tokenSymbol == "RPE" &&
                   e.contractAddress.toLowerCase() == `${ERC721}`.toLowerCase()
                 ) {
-                  
                   const meta = await contract.tokenURI(e.tokenID);
                   const cid = meta.match(/(?<=ipfs:\/\/).*?(?=\/)/)[0];
                   const {
@@ -116,9 +115,10 @@ export default () => {
   return (
     <Container>
        <Head>
-        <Title>RoseApes721 - Collections!</Title>
-        <Sub>View your minted RoseApes!</Sub>
+        <Title>Estuary721 - Collections!</Title>
+        <Sub>View your minted tokens!</Sub>
       </Head>
+        <Sub>Once I figured it out. Your token and image will show here!</Sub>
       {
         <Listings>
           {((tokenList.length && tokenList) || []).map(
